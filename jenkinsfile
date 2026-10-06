@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USER = "sumaid06"
+        DOCKER_USER = "verventech"
         VM_USER = "verjenkins"
         STAGING_IP = "192.168.1.99"
         PROD_IP = "192.168.1.100"
