@@ -1,800 +1,602 @@
 <?php
-// Enable error reporting for smooth local testing
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ---------- Settings: edit these ----------
+const BRAND        = 'Darsafar';
+const EMAIL        = 'darasafar@gmail.com';
+const WA_NUMBER    = '91XXXXXXXXXX'; // country code + number, digits only. Example: 919876543210
+const CURRENCY     = '₹';
 
-// 1. KASHMIR & NORTHERN PAKISTAN CURATED DESTINATIONS WITH LAT/LON FOR LIVE WEATHER
-$default_images = [
-    'Srinagar, Kashmir'     => 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1200&q=80',
-    'Hunza Valley, PK'      => 'https://images.unsplash.com/photo-1586375300773-8384e3e4916f?auto=format&fit=crop&w=1200&q=80',
-    'Gulmarg, Kashmir'      => 'https://images.unsplash.com/photo-1562670652-e5947bddb335?auto=format&fit=crop&w=1200&q=80',
-    'Skardu Valley, PK'     => 'https://images.unsplash.com/photo-1609839331899-786d34e90863?auto=format&fit=crop&w=1200&q=80',
-    'Pahalgam, Kashmir'     => 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80'
-];
-
+// ---------- Packages (same data as init.sql) ----------
 $packages = [
-    [
-        'id' => 1,
-        'package_name' => 'Dal Lake & Royal Shrines',
-        'destination' => 'Srinagar, Jammu & Kashmir',
-        'lat' => 34.0837,
-        'lon' => 74.7973,
-        'description' => 'Glide across tranquil lake waters in luxury houseboats with panoramic views of Hazratbal Shrine, Shankaracharya Hill, and snow-capped peaks.',
-        'distance' => '520 km',
-        'temp' => '16° C',
-        'rating' => '4.95',
-        'elevation' => '1,585m',
-        'price' => 19999,
-        'currency' => '₹',
-        'image' => $default_images['Srinagar, Kashmir']
-    ],
-    [
-        'id' => 2,
-        'package_name' => 'Hunza Shangrila Expedition',
-        'destination' => 'Hunza Valley, Gilgit-Baltistan',
-        'lat' => 36.3167,
-        'lon' => 74.6500,
-        'description' => 'Surround yourself with 7,000m Karakoram peaks, ancient Baltit & Altit forts, turquoise Attabad Lake, and breathtaking apricot blooms.',
-        'distance' => '740 km',
-        'temp' => '12° C',
-        'rating' => '4.98',
-        'elevation' => '2,438m',
-        'price' => 28500,
-        'currency' => '₹',
-        'image' => $default_images['Hunza Valley, PK']
-    ],
-    [
-        'id' => 3,
-        'package_name' => 'Gulmarg Snow Slopes & Gondola',
-        'destination' => 'Gulmarg, Kashmir Valley',
-        'lat' => 34.0484,
-        'lon' => 74.3805,
-        'description' => 'Ride Asia\'s highest cable car to Mount Apharwat. Experience world-class winter skiing, pine forest trails, and untouched snowscapes.',
-        'distance' => '890 km',
-        'temp' => '-2° C',
-        'rating' => '4.89',
-        'elevation' => '2,650m',
-        'price' => 28999,
-        'currency' => '₹',
-        'image' => $default_images['Gulmarg, Kashmir']
-    ],
-    [
-        'id' => 4,
-        'package_name' => 'Skardu & Deosai Plains',
-        'destination' => 'Skardu, Gilgit-Baltistan',
-        'lat' => 35.2971,
-        'lon' => 75.6333,
-        'description' => 'Journey to the Land of Giants. Discover Shangrila Resort, Cold Desert Katpana, Upper Kachura Lake, and high-altitude alpine wildlife.',
-        'distance' => '610 km',
-        'temp' => '14° C',
-        'rating' => '4.92',
-        'elevation' => '2,228m',
-        'price' => 32000,
-        'currency' => '₹',
-        'image' => $default_images['Skardu Valley, PK']
-    ],
-    [
-        'id' => 5,
-        'package_name' => 'Pahalgam Valley & Betaab Pass',
-        'destination' => 'Pahalgam, Kashmir Valley',
-        'lat' => 34.0161,
-        'lon' => 75.3150,
-        'description' => 'Explore the Valley of Shepherds, crystal-clear Lidder River streams, dense pine wilderness, and serene alpine meadows.',
-        'distance' => '640 km',
-        'temp' => '15° C',
-        'rating' => '4.91',
-        'elevation' => '2,130m',
-        'price' => 24999,
-        'currency' => '₹',
-        'image' => $default_images['Pahalgam, Kashmir']
-    ]
+  ['Kashmir Snow Escape',      'Gulmarg, Kashmir',     '2026-12-15', '5 Days / 4 Nights', 28999, 18, 'Experience the snow-covered mountains, winter landscapes and unforgettable beauty of Gulmarg.',                 'https://images.unsplash.com/photo-1605649487212-4dcb18a2bc72?auto=format&fit=crop&w=800&q=80'],
+  ['Dal Lake Dream',           'Srinagar, Kashmir',    '2026-11-20', '4 Days / 3 Nights', 19999, 24, 'Enjoy the beauty of Srinagar with a peaceful Shikara experience on the iconic Dal Lake.',                     'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80'],
+  ['Pahalgam Valley Retreat',  'Pahalgam, Kashmir',    '2026-12-05', '5 Days / 4 Nights', 24999, 15, 'Explore the peaceful valleys, rivers and breathtaking mountain scenery of Pahalgam.',                         'https://images.unsplash.com/photo-1626244498304-a1309dffefae?auto=format&fit=crop&w=800&q=80'],
+  ['Sonamarg Winter Escape',   'Sonamarg, Kashmir',    '2026-12-22', '4 Days / 3 Nights', 23999, 16, 'Discover the golden meadows, snowy mountains and spectacular Himalayan landscapes of Sonamarg.',                'https://images.unsplash.com/photo-1610214643330-84c1f1ec76d1?auto=format&fit=crop&w=800&q=80'],
+  ['Doodhpathri Valley Retreat','Doodhpathri, Kashmir','2027-01-08', '4 Days / 3 Nights', 21999, 20, 'Escape into the peaceful meadows, pine forests and beautiful streams of Doodhpathri.',                        'https://images.unsplash.com/photo-1593693397690-362bb9a11542?auto=format&fit=crop&w=800&q=80'],
+  ['Gurez Valley Expedition',  'Gurez Valley, Kashmir','2027-01-18', '6 Days / 5 Nights', 32999, 12, 'Journey through the dramatic mountains, traditional villages and breathtaking landscapes of Gurez Valley.',      'https://images.unsplash.com/photo-1627915570081-0076a0d4c944?auto=format&fit=crop&w=800&q=80'],
+];
+$keys = ['name','dest','date','duration','price','seats','desc','img'];
+$packages = array_map(fn($p) => array_combine($keys, $p), $packages);
+
+// Distinct fallback colours shown if an online image fails to load
+$fallbacks = [
+  ['#2b4a6b','#9fc4e0'], ['#1f5c63','#7fd0c7'], ['#2f5a3a','#a5d08a'],
+  ['#6b5a2b','#e6c77a'], ['#27503f','#8cc7a5'], ['#3b3f63','#a7abd8'],
 ];
 
-// 2. DATABASE FALLBACK HANDLER
-$db_host = getenv('POSTGRES_HOST') ?: (getenv('DB_HOST') ?: 'db');
-$db_name = getenv('POSTGRES_DB') ?: (getenv('DB_NAME') ?: 'traveldb');
-$db_user = getenv('POSTGRES_USER') ?: (getenv('DB_USER') ?: 'traveluser');
-$db_pass = getenv('POSTGRES_PASSWORD') ?: (getenv('DB_PASS') ?: 'travelpass');
+// Wikipedia page titles used to fetch a real photo of each place when the direct image link fails
+$wikiTitles = [
+  ['Gulmarg','Gulmarg Gondola'],
+  ['Dal Lake','Srinagar'],
+  ['Pahalgam','Lidder River'],
+  ['Sonamarg','Thajiwas Glacier'],
+  ['Doodhpathri','Budgam district'],
+  ['Gurez','Gurez Valley','Habba Khatoon'],
+];
 
-if (extension_loaded('pdo_pgsql') || extension_loaded('pdo_mysql')) {
-    try {
-        $dsn = extension_loaded('pdo_pgsql') 
-            ? "pgsql:host=$db_host;dbname=$db_name" 
-            : "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4";
-
-        $pdo = new PDO($dsn, $db_user, $db_pass, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_TIMEOUT => 2
-        ]);
-
-        $stmt = $pdo->query("SELECT * FROM travel_packages ORDER BY id ASC");
-        $db_raw = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (!empty($db_raw)) {
-            $packages = [];
-            foreach ($db_raw as $row) {
-                $dest = $row['destination'] ?? 'Srinagar, Kashmir';
-                $packages[] = [
-                    'id' => $row['id'],
-                    'package_name' => $row['package_name'] ?? 'Paradise Tour',
-                    'destination' => $dest,
-                    'lat' => $row['lat'] ?? 34.0837,
-                    'lon' => $row['lon'] ?? 74.7973,
-                    'description' => $row['description'] ?? 'Exclusive luxury mountain escape.',
-                    'distance' => $row['distance'] ?? '500 km',
-                    'temp' => $row['temp'] ?? '16° C',
-                    'rating' => $row['rating'] ?? '4.9',
-                    'elevation' => $row['elevation'] ?? '1,800m',
-                    'price' => $row['price'] ?? 21000,
-                    'currency' => '₹',
-                    'image' => $default_images[$dest] ?? $default_images['Srinagar, Kashmir']
-                ];
-            }
-        }
-    } catch (Exception $e) {
-        // Fallback gracefully
-    }
-}
+function e($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+function wa_link($text) { return 'https://wa.me/' . WA_NUMBER . '?text=' . rawurlencode($text); }
+function money($n) { return CURRENCY . number_format($n); }
 ?>
 <!DOCTYPE html>
-<html lang="en" class="overflow-x-hidden">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dar us safar | Official Responsive Paradise Expeditions</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><?= e(BRAND) ?> – Kashmir Travel Packages</title>
+<meta name="description" content="<?= e(BRAND) ?> plans Kashmir trips to Gulmarg, Srinagar, Pahalgam, Sonamarg, Doodhpathri and Gurez Valley.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0d1513;
+  --night-2:#131f1c;
+  --paper:#f7f5f0;
+  --ink:#1a1f1e;
+  --muted:#6d7673;
+  --glacier:#1fa7a3;
+  --saffron:#e9a23b;
+  --wa:#25d366;
+  --wa-dark:#075e54;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Hanken Grotesk',system-ui,sans-serif;
+  --card-w:300px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--night);color:#e9efec;line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:3px;border-radius:6px}
+img{display:block;max-width:100%}
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+/* contour-line backdrop */
+.backdrop{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(ellipse at 50% 30%,#1b2e29 0%,transparent 60%),
+  radial-gradient(ellipse at 15% 90%,#2a2116 0%,transparent 45%),
+  var(--night)}
+.backdrop svg{position:absolute;inset:0;width:100%;height:100%;opacity:.16}
 
-    <!-- Google Fonts & FontAwesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(13,21,19,.78);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav{max-width:1180px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:var(--display);font-weight:700;font-size:1.6rem;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--glacier),var(--saffron));display:grid;place-items:center}
+.logo i svg{width:17px;height:17px}
+.nav ul{display:flex;gap:28px;list-style:none;font-weight:500;font-size:.95rem;color:#c5d0cc}
+.nav ul a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.95rem;border:0;cursor:pointer;font-family:inherit}
+.btn-wa{background:var(--wa);color:#04331d}
+.btn-wa:hover{filter:brightness(1.07)}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.16)}
+.btn-ghost:hover{background:rgba(255,255,255,.14)}
 
-    <style>
-        html, body {
-            max-width: 100vw;
-            overflow-x: hidden;
-            background-color: #060911;
-            color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            touch-action: manipulation;
-        }
+/* hero */
+.hero{max-width:1180px;margin:auto;padding:64px 24px 0;text-align:center}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.4rem);line-height:1.05;letter-spacing:-.01em;max-width:15ch;margin:0 auto 18px}
+.hero p{max-width:52ch;margin:0 auto;color:#aebbb6;font-size:1.08rem}
 
-        /* GORGEOUS CINEMATIC MOUNTAIN COVER BACKGROUND */
-        .scenic-bg {
-            background-image: 
-                linear-gradient(180deg, rgba(6, 9, 17, 0.75) 0%, rgba(10, 15, 26, 0.55) 50%, rgba(6, 9, 17, 0.98) 100%),
-                url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2560&q=90');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-        }
 
-        .font-serif-title {
-            font-family: 'Playfair Display', serif;
-        }
+/* hero photo background */
+.hero-wrap{position:relative;padding-bottom:30px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,#16373a,#0d1513 70%);opacity:1}
+.hero-bg i{position:absolute;inset:0;background-size:cover;background-position:center 50%;opacity:0;transition:opacity 1.2s ease}
+.hero-bg i.on{opacity:1}
+.hero-bg::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(13,21,19,.55) 0%,rgba(13,21,19,.25) 30%,rgba(13,21,19,.55) 65%,var(--night) 100%)}
+.hero-wrap>*:not(.hero-bg){position:relative;z-index:1}
+.hero h1{text-shadow:0 4px 30px rgba(0,0,0,.45)}
+.hero p{color:#e2ebe7;text-shadow:0 2px 14px rgba(0,0,0,.5)}
 
-        /* Glassmorphism Panel */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.72);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-        }
+/* floating card stage */
+.stage{position:relative;height:620px;margin-top:34px;perspective:1400px}
+.card{position:absolute;left:50%;top:40px;width:var(--card-w);margin-left:calc(var(--card-w) / -2);
+  transition:transform .7s cubic-bezier(.22,.8,.24,1),opacity .5s,filter .5s;cursor:pointer;will-change:transform}
+.card-in{background:#fff;color:var(--ink);border-radius:26px;padding:10px 10px 18px;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.65),0 8px 20px rgba(0,0,0,.25);text-align:left}
+.card.active .card-in{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.card.side{filter:brightness(.72) saturate(.9)}
+.photo{position:relative;height:210px;border-radius:18px;overflow:hidden;background:var(--fb)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo .tag{position:absolute;left:10px;top:10px;background:rgba(13,21,19,.7);backdrop-filter:blur(6px);color:#fff;font-size:.78rem;font-weight:600;padding:5px 11px;border-radius:999px}
+.card-body{padding:16px 10px 0}
+.card h3{font-family:var(--display);font-size:1.32rem;line-height:1.15;font-weight:700}
+.loc{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.86rem;margin:6px 0 10px}
+.loc svg{width:14px;height:14px;flex:none}
+.card p.d{font-size:.84rem;color:#4b5451;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:3.9em}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 4px;padding-top:12px;border-top:1px solid #ebe8e1}
+.stats span{display:block;font-size:.72rem;color:var(--muted)}
+.stats b{font-size:.95rem;color:var(--glacier);font-weight:700}
+.foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:12px}
+.foot small{display:block;color:var(--muted);font-size:.74rem}
+.foot strong{font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+.fly{width:50px;height:50px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;transition:transform .2s,background .2s}
+.fly:hover{background:var(--glacier);transform:scale(1.08)}
+.fly svg{width:22px;height:22px}
 
-        /* 3D Coverflow Container */
-        .coverflow-viewport {
-            perspective: 1000px;
-            perspective-origin: 50% 50%;
-            touch-action: pan-y;
-        }
+.controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:6px}
+.arrow{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;cursor:pointer;display:grid;place-items:center}
+.arrow:hover{background:rgba(255,255,255,.16)}
+.arrow svg{width:20px;height:20px}
+.dots{display:flex;gap:8px}
+.dots button{width:9px;height:9px;border-radius:99px;border:0;background:rgba(255,255,255,.28);cursor:pointer;transition:width .3s,background .3s}
+.dots button.on{width:28px;background:var(--saffron)}
 
-        .coverflow-track {
-            transform-style: preserve-3d;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-        }
+/* sections */
+section{max-width:1180px;margin:auto;padding:96px 24px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+.sec-head h2{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.1;max-width:18ch}
+.sec-head p{color:#aebbb6;max-width:42ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+.tile{background:var(--night-2);border:1px solid rgba(255,255,255,.08);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
+.tile .photo{height:200px;border-radius:0}
+.tile-b{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.tile h3{font-family:var(--display);font-size:1.25rem}
+.tile p{color:#aebbb6;font-size:.92rem;flex:1}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.meta span{font-size:.8rem;background:rgba(255,255,255,.07);padding:5px 11px;border-radius:999px;color:#d6e0dc}
+.tile-f{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.tile-f strong{font-size:1.35rem}
+.tile-f a{background:var(--wa);color:#04331d;font-weight:600;font-size:.88rem;padding:9px 16px;border-radius:999px}
 
-        /* Fluid 3D Responsive Card Dimensions */
-        .card-3d {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 280px;
-            transform-style: preserve-3d;
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            user-select: none;
-            -webkit-user-select: none;
-        }
+.contact{background:linear-gradient(135deg,#123a37,#1b2d27 60%,#33260f);border-radius:28px;padding:56px 40px;display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;border:1px solid rgba(255,255,255,.08)}
+.contact h2{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.1;margin-bottom:12px}
+.contact p{color:#c3d1cc;max-width:44ch}
+.ways{display:grid;gap:14px}
+.way{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:16px 18px;border-radius:16px}
+.way:hover{background:rgba(255,255,255,.12)}
+.way svg{width:26px;height:26px;flex:none}
+.way b{display:block;font-size:1rem}
+.way span{font-size:.86rem;color:#b8c7c2}
+footer{max-width:1180px;margin:auto;padding:70px 24px 40px;color:#8b9994;font-size:.88rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-        @media (min-width: 380px) {
-            .card-3d { width: 310px; }
-        }
+/* whatsapp floating window */
+.wa-fab{position:fixed;right:22px;bottom:22px;z-index:90;width:62px;height:62px;border-radius:50%;background:var(--wa);border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.wa-fab svg{width:34px;height:34px}
+.wa-win{position:fixed;right:22px;bottom:96px;z-index:90;width:340px;max-width:calc(100vw - 32px);border-radius:20px;overflow:hidden;background:#efeae2;color:var(--ink);
+  box-shadow:0 30px 70px rgba(0,0,0,.55);transform-origin:bottom right;transform:scale(.6) translateY(30px);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.22,.9,.3,1),opacity .25s}
+.wa-win.open{transform:none;opacity:1;pointer-events:auto}
+.wa-top{background:var(--wa-dark);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.wa-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--glacier),var(--saffron));display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.2rem}
+.wa-top b{display:block;line-height:1.2}
+.wa-top small{opacity:.85;font-size:.8rem}
+.wa-x{margin-left:auto;background:none;border:0;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1}
+.wa-body{padding:18px;min-height:130px}
+.bubble{background:#fff;padding:11px 14px;border-radius:0 14px 14px 14px;font-size:.92rem;max-width:88%;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.wa-body select{margin-top:14px;width:100%;padding:10px 12px;border-radius:10px;border:1px solid #cfc8bb;background:#fff;font-family:inherit;font-size:.9rem}
+.wa-form{display:flex;gap:8px;padding:12px;background:#f7f4ee}
+.wa-form input{flex:1;padding:12px 14px;border-radius:999px;border:1px solid #d6d0c4;font-family:inherit;font-size:.92rem;min-width:0}
+.wa-form button{width:44px;height:44px;border-radius:50%;border:0;background:var(--wa-dark);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
+.wa-form button svg{width:20px;height:20px}
+.wa-mail{display:block;text-align:center;font-size:.82rem;color:#4b5451;padding:0 12px 14px;background:#f7f4ee}
+.wa-mail a{color:var(--wa-dark);font-weight:600;text-decoration:underline}
 
-        @media (min-width: 640px) {
-            .card-3d { width: 340px; }
-        }
+@media (max-width:820px){
+  .nav ul{display:none}
+  .contact{grid-template-columns:1fr;padding:36px 24px}
+  :root{--card-w:270px}
+  .photo{height:180px}
+  .stage{height:600px}
+}
+@media (prefers-reduced-motion:reduce){
+  .card,.wa-win{transition:none}
+  .card.active .card-in{animation:none}
+  html{scroll-behavior:auto}
+}
 
-        .card-inner {
-            background: #ffffff;
-            color: #111827;
-            border-radius: 1.75rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
-            overflow: hidden;
-            transition: box-shadow 0.4s ease;
-        }
+/* ================= Responsive polish (all screen sizes) ================= */
+html{-webkit-text-size-adjust:100%}
+.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+.card,.tile,.contact{max-width:100%}
+.wa-fab{right:max(22px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom))}
+.wa-win{right:max(22px,env(safe-area-inset-right));bottom:calc(max(22px,env(safe-area-inset-bottom)) + 74px);max-height:calc(100vh - 120px);overflow-y:auto}
 
-        .card-desc {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+/* Large desktops */
+@media (min-width:1500px){
+  :root{--card-w:330px}
+  .stage{height:660px}
+  .nav,.hero,section,footer{max-width:1320px}
+}
 
-        /* Live Indicator Pulse Animation */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 0.4; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-        .live-pulse {
-            animation: pulse-ring 2s infinite ease-in-out;
-        }
+/* Laptops and small desktops */
+@media (max-width:1100px){
+  .stage{height:600px}
+  .nav ul{gap:20px}
+}
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #060911; }
-        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 3px; }
-    </style>
+/* Tablets */
+@media (max-width:820px){
+  .nav{padding:12px 18px}
+  .hero{padding:44px 18px 0}
+  .hero-bg i{background-position:center 30%}
+  section{padding:72px 18px 0}
+  .sec-head{margin-bottom:26px}
+  .stage{height:590px}
+  .contact{border-radius:22px}
+  footer{padding:56px 18px 34px}
+}
+
+/* Phones */
+@media (max-width:600px){
+  :root{--card-w:260px}
+  .logo{font-size:1.35rem}
+  .logo i{width:26px;height:26px;border-radius:8px}
+  .nav .btn{padding:9px 14px;font-size:.85rem}
+  .hero{padding-top:34px}
+  .hero p{font-size:1rem}
+  .stage{height:575px;margin-top:22px}
+  .photo{height:170px}
+  .card-body{padding:14px 8px 0}
+  .card h3{font-size:1.2rem}
+  .foot strong{font-size:1.3rem}
+  .fly{width:46px;height:46px}
+  .arrow{width:42px;height:42px}
+  .dots button{width:8px;height:8px}
+  .dots button.on{width:22px}
+  section{padding-top:60px}
+  .tile .photo{height:190px}
+  .contact{padding:28px 20px}
+  .way{padding:14px}
+  footer{flex-direction:column;text-align:center;align-items:center}
+  .wa-fab{width:56px;height:56px}
+  .wa-fab svg{width:30px;height:30px}
+  .wa-win{width:calc(100vw - 28px);right:14px}
+}
+
+/* Very small phones */
+@media (max-width:380px){
+  :root{--card-w:236px}
+  .nav .btn{display:none}
+  .stage{height:555px}
+  .photo{height:150px}
+  .card p.d{-webkit-line-clamp:2;min-height:2.6em}
+  .stats b{font-size:.85rem}
+  .foot strong{font-size:1.2rem}
+  .meta span{font-size:.75rem}
+}
+
+/* Short landscape phones */
+@media (max-height:520px) and (orientation:landscape){
+  .hero{padding-top:24px}
+  .hero h1{font-size:2rem}
+  .wa-win{max-height:calc(100vh - 100px)}
+}
+
+/* Touch devices: no hover-only effects needed */
+@media (hover:none){
+  .fly:hover{transform:none}
+}
+</style>
+<script>
+/* If a package photo fails to load, fetch a real photo of the place from Wikipedia */
+
+/* Find good landscape photos on Wikimedia Commons (free to use) */
+var PEOPLE = /\b(man|men|woman|women|people|person|persons|girl|girls|boy|boys|child|children|kid|kids|family|couple|tourist|tourists|visitor|visitors|crowd|group|portrait|selfie|vendor|seller|shopkeeper|farmer|farmers|worker|workers|pickers?|skier|skiers|skiing|snowboard\w*|wedding|bride|groom|dancers?|dance|musician|band|player|players|team|army|soldier|soldiers|police|minister|leader|chef|cook|cooking|eating|feast|diners?|guests?|standing|sitting|riding|walking|posing|tour|tours|festival|procession|protest|rally|pilgrims?|yatra)\b/i;
+function commonsPhoto(query, minWidth){
+  var url = 'https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=30'
+    + '&gsrsearch=' + encodeURIComponent(query)
+    + '&prop=imageinfo&iiprop=url|size|mime|extmetadata&iiurlwidth=1920&format=json&origin=*';
+  return fetch(url).then(function(r){ return r.json(); }).then(function(d){
+    var pages = d && d.query ? Object.values(d.query.pages) : [];
+    pages.sort(function(a,b){ return a.index - b.index; });
+    for (var i = 0; i < pages.length; i++){
+      var ii = pages[i].imageinfo && pages[i].imageinfo[0];
+      if (!ii || !/jpe?g/i.test(ii.mime)) continue;
+      var em = ii.extmetadata || {};
+      var text = (pages[i].title + ' ' + ((em.ImageDescription || {}).value || '') + ' ' + ((em.Categories || {}).value || '')).toLowerCase();
+      if (PEOPLE.test(text)) continue;
+      if (ii.width >= minWidth && ii.width >= ii.height * 1.25 && ii.thumburl) return ii.thumburl;
+    }
+    return null;
+  }).catch(function(){ return null; });
+}
+
+var wikiCache = {};
+function wikiImg(img){
+  var list = [];
+  try { list = JSON.parse(img.getAttribute('data-wiki') || '[]'); } catch (e) {}
+  function next(){
+    var t = list.shift();
+    if (!t) { img.style.display = 'none'; return; }
+    if (!wikiCache[t]) {
+      wikiCache[t] = fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(t))
+        .then(function(r){ return r.ok ? r.json() : {}; })
+        .catch(function(){ return {}; });
+    }
+    wikiCache[t].then(function(d){
+      var src = d && d.thumbnail && d.thumbnail.source;
+      if (!src) { next(); return; }
+      img.onerror = next;
+      img.style.display = '';
+      img.src = src.replace(/\/\d+px-/, '/960px-');
+    });
+  }
+  next();
+}
+</script>
 </head>
-<body class="min-h-screen scenic-bg flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+<body>
+<div class="backdrop" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 800" fill="none" stroke="#c9a66b" stroke-width="1">
+    <?php for ($i = 1; $i <= 9; $i++): ?>
+    <ellipse cx="380" cy="300" rx="<?= 60 + $i * 70 ?>" ry="<?= 40 + $i * 46 ?>" transform="rotate(-14 380 300)"/>
+    <ellipse cx="900" cy="560" rx="<?= 40 + $i * 58 ?>" ry="<?= 30 + $i * 38 ?>" transform="rotate(18 900 560)"/>
+    <?php endfor; ?>
+  </svg>
+</div>
 
-    <!-- TOP OFFICIAL CONTACT BAR -->
-    <div class="bg-slate-950/90 backdrop-blur-md border-b border-white/10 text-[11px] sm:text-xs py-2 px-4 sm:px-6 text-gray-300 z-50">
-        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2 sm:gap-4">
-            <div class="flex items-center gap-4 sm:gap-6">
-                <!-- DIRECT PHONE LINK -->
-                <a href="tel:+919906898620" class="hover:text-blue-400 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-phone text-blue-400"></i>
-                    <span>+91 99068 98620</span>
-                </a>
-                <!-- DIRECT EMAIL LINK -->
-                <a href="mailto:darusafar@gmail.com" class="hover:text-blue-400 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-envelope text-blue-400"></i>
-                    <span>darusafar@gmail.com</span>
-                </a>
-            </div>
-
-            <div class="flex items-center gap-3 sm:gap-5 ml-auto">
-                <!-- Internet Live Sync Status Badge -->
-                <div id="net-status-badge" class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-full border border-white/10 text-[10px]">
-                    <span id="net-status-dot" class="w-2 h-2 rounded-full bg-emerald-400 live-pulse"></span>
-                    <span id="net-status-text" class="text-emerald-400 font-bold uppercase tracking-wider">Live Weather Active</span>
-                </div>
-
-                <div class="flex items-center gap-1.5 border-l border-white/10 pl-3">
-                    <i class="fa-solid fa-earth-americas text-gray-400"></i>
-                    <select id="currency-select" onchange="convertCurrency()" class="bg-transparent text-gray-300 focus:outline-none cursor-pointer text-xs">
-                        <option value="INR" class="bg-slate-900 text-white">INR (₹)</option>
-                        <option value="USD" class="bg-slate-900 text-white">USD ($)</option>
-                        <option value="EUR" class="bg-slate-900 text-white">EUR (€)</option>
-                        <option value="PKR" class="bg-slate-900 text-white">PKR (Rs)</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN HEADER NAVIGATION -->
-    <header class="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-50">
-        <a href="#" class="flex items-center gap-2.5 sm:gap-3">
-            <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-500 flex items-center justify-center text-white shadow-xl shadow-blue-600/40 shrink-0">
-                <i class="fa-solid fa-mountain-sun text-lg sm:text-2xl"></i>
-            </div>
-            <div>
-                <span class="text-xl sm:text-2xl font-extrabold tracking-widest uppercase font-serif-title text-white block leading-none">
-                    Dar us safar
-                </span>
-                <span class="text-[9px] sm:text-[10px] tracking-widest text-blue-400 uppercase font-bold">Paradise Expeditions</span>
-            </div>
-        </a>
-
-        <!-- Trust Rating Badge -->
-        <div class="hidden lg:flex items-center gap-3 glass-panel px-4 py-2 rounded-full border border-white/10">
-            <div class="flex text-amber-400 text-xs">
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-            </div>
-            <span class="text-xs font-bold text-white">4.95 / 5.0</span>
-            <span class="text-[11px] text-gray-400 border-l border-white/20 pl-2">1,580+ Expeditions Completed</span>
-        </div>
-
-        <div class="flex items-center gap-2 sm:gap-3">
-            <a href="#contact" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow-lg shadow-blue-600/30 transition transform hover:-translate-y-0.5 whitespace-nowrap">
-                Concierge Booking
-            </a>
-        </div>
-    </header>
-
-    <!-- INTERACTIVE EXPEDITION SEARCH & FILTER BAR -->
-    <section class="max-w-5xl mx-auto px-4 sm:px-6 my-2 z-40 w-full">
-        <div class="glass-panel rounded-2xl p-3 sm:p-4 shadow-2xl">
-            <form onsubmit="alert('Searching mountain expeditions...'); return false;" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 items-center">
-                <div class="bg-slate-900/80 rounded-xl p-2.5 border border-white/10">
-                    <label class="block text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider">Destination</label>
-                    <select class="w-full bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer mt-0.5">
-                        <option class="bg-slate-900">All Mountain Regions</option>
-                        <option class="bg-slate-900">Srinagar & Dal Lake</option>
-                        <option class="bg-slate-900">Hunza & Attabad Lake</option>
-                        <option class="bg-slate-900">Gulmarg Ski Slopes</option>
-                        <option class="bg-slate-900">Skardu & Deosai</option>
-                    </select>
-                </div>
-
-                <div class="bg-slate-900/80 rounded-xl p-2.5 border border-white/10">
-                    <label class="block text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider">Travel Month</label>
-                    <input type="month" value="2026-11" class="w-full bg-transparent text-xs font-bold text-white focus:outline-none mt-0.5">
-                </div>
-
-                <div class="bg-slate-900/80 rounded-xl p-2.5 border border-white/10">
-                    <label class="block text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider">Expedition Style</label>
-                    <select class="w-full bg-transparent text-xs font-bold text-white focus:outline-none cursor-pointer mt-0.5">
-                        <option class="bg-slate-900">Luxury Alpine Resort</option>
-                        <option class="bg-slate-900">High Peak Trekking</option>
-                        <option class="bg-slate-900">Romantic Valley Getaway</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl py-3 text-xs tracking-wider uppercase transition flex items-center justify-center gap-2 shadow-lg">
-                    <i class="fa-solid fa-compass"></i>
-                    <span>Find Expedition</span>
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <!-- MAIN 3D COVERFLOW SECTION -->
-    <main class="relative w-full my-auto py-4 sm:py-6 flex flex-col items-center justify-center min-h-[500px] sm:min-h-[560px]">
-        
-        <!-- Live Alpine Satellite Weather Widget -->
-        <div class="absolute top-0 right-4 sm:right-8 z-30 hidden lg:flex items-center gap-3 glass-panel px-4 py-2 rounded-2xl text-xs">
-            <div id="weather-icon-container" class="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-amber-400 text-base">
-                <i class="fa-solid fa-sun animate-spin-slow"></i>
-            </div>
-            <div>
-                <div class="flex items-center gap-2">
-                    <span id="active-weather" class="font-extrabold text-white block">Srinagar: Fetching...</span>
-                    <span id="live-weather-badge" class="bg-emerald-500/20 text-emerald-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-emerald-400/30">ONLINE METEO</span>
-                </div>
-                <span id="active-elevation" class="text-[10px] text-blue-300">Elevation: 1,585m</span>
-            </div>
-        </div>
-
-        <!-- 3D Card Slider Viewport -->
-        <div class="coverflow-viewport w-full h-[460px] sm:h-[500px] relative flex items-center justify-center" id="touch-viewport">
-            <div id="coverflow-track" class="coverflow-track w-full h-full relative">
-                <?php foreach ($packages as $index => $pkg): ?>
-                    <div class="card-3d cursor-pointer" id="card-<?php echo $index; ?>" onclick="selectCard(<?php echo $index; ?>)">
-                        <div class="card-inner p-3.5 sm:p-4 flex flex-col justify-between">
-                            
-                            <!-- Card Image Banner -->
-                            <div class="relative h-44 sm:h-52 w-full rounded-2xl overflow-hidden mb-3">
-                                <img src="<?php echo htmlspecialchars($pkg['image']); ?>" alt="<?php echo htmlspecialchars($pkg['package_name']); ?>" class="w-full h-full object-cover">
-                                <span class="absolute top-2.5 left-2.5 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                                    <i class="fa-solid fa-mountain text-amber-400 mr-1"></i> <?php echo $pkg['elevation']; ?>
-                                </span>
-                            </div>
-
-                            <!-- Card Title & Location -->
-                            <div class="px-1.5 space-y-1">
-                                <h3 class="text-lg sm:text-xl font-extrabold text-gray-900 tracking-tight leading-snug">
-                                    <?php echo htmlspecialchars($pkg['package_name']); ?>
-                                </h3>
-                                <div class="flex items-center gap-1.5 text-xs text-blue-700 font-bold">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    <span class="truncate"><?php echo htmlspecialchars($pkg['destination']); ?></span>
-                                </div>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="px-1.5 mt-2">
-                                <p class="text-[11px] font-medium text-gray-500 leading-relaxed card-desc">
-                                    <?php echo htmlspecialchars($pkg['description']); ?>
-                                </p>
-                            </div>
-
-                            <!-- Metrics Data Bar -->
-                            <div class="grid grid-cols-3 gap-1 my-2.5 px-1 text-center border-t border-b border-gray-100 py-2">
-                                <div>
-                                    <span class="block text-[9px] uppercase tracking-wider font-bold text-gray-400">Distance</span>
-                                    <span class="text-xs font-extrabold text-blue-600"><?php echo htmlspecialchars($pkg['distance']); ?></span>
-                                </div>
-                                <div>
-                                    <span class="block text-[9px] uppercase tracking-wider font-bold text-gray-400">Live Temp</span>
-                                    <span id="card-temp-<?php echo $index; ?>" class="text-xs font-extrabold text-emerald-600"><?php echo htmlspecialchars($pkg['temp']); ?></span>
-                                </div>
-                                <div>
-                                    <span class="block text-[9px] uppercase tracking-wider font-bold text-gray-400">Rating</span>
-                                    <span class="text-xs font-extrabold text-blue-600">★ <?php echo htmlspecialchars($pkg['rating']); ?></span>
-                                </div>
-                            </div>
-
-                            <!-- Card Footer -->
-                            <div class="flex items-center justify-between px-1.5 pt-0.5 pb-0.5">
-                                <div>
-                                    <span class="block text-[9px] uppercase tracking-wider font-bold text-gray-400">Package Rate</span>
-                                    <span id="card-price-<?php echo $index; ?>" class="text-base sm:text-lg font-extrabold text-gray-900">
-                                        <?php echo $pkg['currency'] . number_format($pkg['price']); ?>
-                                    </span>
-                                </div>
-
-                                <button onclick="openBookingModal('<?php echo addslashes($pkg['package_name']); ?>'); event.stopPropagation();" 
-                                        class="w-10 h-10 sm:w-11 sm:h-11 bg-slate-950 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110 active:scale-95">
-                                    <i class="fa-solid fa-plane-departure text-xs"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- Slider Arrow Controls & Dots -->
-        <div class="flex items-center gap-4 sm:gap-6 mt-2 sm:mt-4 z-40">
-            <button onclick="prevCard()" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-panel hover:bg-white/20 text-white flex items-center justify-center transition active:scale-95 shadow-2xl">
-                <i class="fa-solid fa-chevron-left text-xs sm:text-sm"></i>
-            </button>
-            
-            <div id="dots-container" class="flex items-center gap-1.5 sm:gap-2">
-                <?php foreach ($packages as $index => $pkg): ?>
-                    <span onclick="selectCard(<?php echo $index; ?>)" 
-                          id="dot-<?php echo $index; ?>" 
-                          class="cursor-pointer h-2 rounded-full transition-all duration-300 bg-white/30 w-2"></span>
-                <?php endforeach; ?>
-            </div>
-
-            <button onclick="nextCard()" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-panel hover:bg-white/20 text-white flex items-center justify-center transition active:scale-95 shadow-2xl">
-                <i class="fa-solid fa-chevron-right text-xs sm:text-sm"></i>
-            </button>
-        </div>
-
-    </main>
-
-    <!-- FLOATING DIRECT WHATSAPP DM BUTTON (CONNECTED TO YOUR WHATSAPP +919906898620) -->
-    <a href="https://wa.me/919906898620?text=Hello%20Dar%20us%20safar,%20I%20would%20like%20to%20inquire%20about%20a%20tour%20package." 
-       target="_blank" 
-       rel="noopener noreferrer"
-       class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3 sm:px-5 sm:py-3 rounded-full shadow-2xl flex items-center gap-2.5 transition transform hover:scale-105 border border-emerald-400/30">
-        <i class="fa-brands fa-whatsapp text-xl sm:text-2xl"></i>
-        <span class="text-xs font-bold hidden sm:inline">WhatsApp Concierge</span>
+<header>
+  <div class="nav">
+    <a href="#top" class="logo" id="top">
+      <i><svg viewBox="0 0 24 24" fill="#0d1513"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i>
+      <?= e(BRAND) ?>
     </a>
+    <ul>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-wa" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">Chat on WhatsApp</a>
+  </div>
+</header>
 
-    <!-- RESPONSIVE FOOTER -->
-    <footer id="contact" class="w-full bg-slate-950/95 border-t border-white/10 pt-10 pb-6 px-4 sm:px-6 text-xs text-gray-400 z-40 mt-6">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-            <div class="space-y-3">
-                <span class="text-lg font-bold font-serif-title text-white">Dar us safar</span>
-                <p class="text-gray-400 leading-relaxed">
-                    Bespoke luxury travel management for Kashmir, Hunza Valley, and Northern Himalayan sanctuaries.
-                </p>
-                <div class="space-y-1">
-                    <p class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Licensed Operator #JKT-8842</p>
-                    <p class="text-gray-300"><i class="fa-solid fa-envelope text-blue-400 mr-1.5"></i> darusafar@gmail.com</p>
-                    <p class="text-gray-300">
-                        <a href="https://wa.me/919906898620" target="_blank" class="hover:text-emerald-400 transition">
-                            <i class="fa-brands fa-whatsapp text-emerald-400 mr-1.5"></i> +91 99068 98760
-                        </a>
-                    </p>
-                </div>
-            </div>
+<main>
+<div class="hero-wrap">
+<div class="hero-bg" aria-hidden="true"><i id="heroImg"></i></div>
+<div class="hero">
+  <h1>Kashmir, planned for you</h1>
+  <p>Snow in Gulmarg, shikaras on Dal Lake, quiet valleys in Pahalgam and Gurez. Pick a trip and we handle the rest.</p>
+</div>
 
-            <div>
-                <h4 class="text-white font-bold uppercase tracking-wider mb-3">Popular Expeditions</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-400 transition">Dal Lake Luxury Houseboats</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Gulmarg Gondola Skiing</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Hunza Valley & Attabad Lake</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Skardu Deosai Sanctuary</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-bold uppercase tracking-wider mb-3">Official Support</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-400 transition">Permits & Mountain Guidelines</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Private Helicopter Charters</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Live Weather Advisory</a></li>
-                    <li><a href="tel:+9906898620" class="hover:text-blue-400 transition">24/7 Helpline</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-bold uppercase tracking-wider mb-3">VIP Expeditions Dispatch</h4>
-                <p class="mb-3">Subscribe for exclusive seasonal offers and private villa releases.</p>
-                <form onsubmit="alert('Thank you for subscribing to Dar us safar!'); return false;" class="flex">
-                    <input type="email" placeholder="darusafar@gmail.com" required class="bg-slate-900 border border-slate-700 rounded-l-lg px-3 py-2 text-white w-full focus:outline-none">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 rounded-r-lg transition">Join</button>
-                </form>
-            </div>
+<!-- Floating cards -->
+<div class="stage" id="stage" aria-roledescription="carousel" aria-label="Featured Kashmir packages">
+<?php foreach ($packages as $i => $p): ?>
+  <article class="card" data-i="<?= $i ?>" style="--fb:linear-gradient(135deg,<?= $fallbacks[$i][0] ?>,<?= $fallbacks[$i][1] ?>)">
+    <div class="card-in">
+      <div class="photo">
+        <img src="<?= e($p['img']) ?>" alt="<?= e($p['name']) ?> in <?= e($p['dest']) ?>" loading="<?= $i < 3 ? 'eager' : 'lazy' ?>" referrerpolicy="no-referrer" data-wiki='<?= e(json_encode($wikiTitles[$i])) ?>' <?= $i === 0 ? 'data-place="gulmarg"' : '' ?> onerror="wikiImg(this)">
+        <span class="tag"><?= e($p['duration']) ?></span>
+      </div>
+      <div class="card-body">
+        <h3><?= e($p['name']) ?></h3>
+        <div class="loc">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+          <?= e($p['dest']) ?>
         </div>
-
-        <div class="max-w-7xl mx-auto border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-gray-500 text-center sm:text-left">
-            <p>&copy; <?php echo date('Y'); ?> Dar us safar. All rights reserved.</p>
-            <p class="hidden sm:block">Swipe cards or use arrow keys <kbd class="px-1.5 py-0.5 bg-white/10 rounded font-mono text-gray-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-white/10 rounded font-mono text-gray-300">→</kbd> to browse</p>
+        <p class="d"><?= e($p['desc']) ?></p>
+        <div class="stats">
+          <div><span>Departs</span><b><?= e(date('j M Y', strtotime($p['date']))) ?></b></div>
+          <div><span>Nights</span><b><?= e(explode('/', $p['duration'])[1] ?? '') ?></b></div>
+          <div><span>Seats left</span><b><?= (int)$p['seats'] ?></b></div>
         </div>
-    </footer>
-
-    <!-- RESPONSIVE BOOKING MODAL -->
-    <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-5 sm:p-8 relative">
-            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl p-2">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <h3 class="text-xl sm:text-2xl font-bold font-serif-title text-white mb-1">Reserve Experience</h3>
-            <p class="text-xs text-gray-400 mb-5">Our travel concierge will respond to your WhatsApp or email within 2 hours.</p>
-
-            <form onsubmit="alert('Inquiry registered! Our team will send details to your contact.'); closeBookingModal(); return false;" class="space-y-3.5">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Selected Destination</label>
-                    <input type="text" id="modal-pkg-name" readonly class="w-full bg-white/10 border border-white/20 rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-blue-300 font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Full Name</label>
-                    <input type="text" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Rahul Sharma / Ali Khan">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Email Address</label>
-                    <input type="email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="yourname@gmail.com">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">WhatsApp Number</label>
-                    <input type="tel" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="+91 99068 98760">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-300 mb-1">Custom Requests / Guest Count</label>
-                    <textarea rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Houseboat preferences, helicopter transfers..."></textarea>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm shadow-lg transition">
-                    Submit Concierge Request
-                </button>
-            </form>
+        <div class="foot">
+          <div><small>Price per person</small><strong><?= e(money($p['price'])) ?></strong></div>
+          <a class="fly" href="<?= e(wa_link("Hello " . BRAND . ", I'm interested in the " . $p['name'] . " (" . date('j M Y', strtotime($p['date'])) . ").")) ?>" target="_blank" rel="noopener" aria-label="Enquire about <?= e($p['name']) ?> on WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+          </a>
         </div>
+      </div>
     </div>
+  </article>
+<?php endforeach; ?>
+</div>
 
-    <!-- JAVASCRIPT ENGINE: RESPONSIVE MATH, LIVE SATELLITE WEATHER API, AND TOUCH SWIPES -->
-    <script>
-        const packages = <?php echo json_encode($packages); ?>;
-        const totalCards = packages.length;
-        let activeIndex = 0;
-        let liveWeatherData = {};
+<div class="controls">
+  <button class="arrow" id="prev" aria-label="Previous package"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <div class="dots" id="dots"></div>
+  <button class="arrow" id="next" aria-label="Next package"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
+</div><!-- /hero-wrap -->
 
-        // WMO WEATHER CODES MAPPING TO ICON & CONDITION DESCRIPTION
-        function decodeWmoCode(code) {
-            if (code === 0) return { text: 'Clear Sky', icon: 'fa-sun text-amber-400' };
-            if (code >= 1 && code <= 3) return { text: 'Partly Cloudy', icon: 'fa-cloud-sun text-amber-300' };
-            if (code === 45 || code === 48) return { text: 'Foggy Mist', icon: 'fa-smog text-gray-300' };
-            if (code >= 51 && code <= 67) return { text: 'Rain Showers', icon: 'fa-cloud-showers-heavy text-blue-400' };
-            if (code >= 71 && code <= 86) return { text: 'Snowfall', icon: 'fa-snowflake text-cyan-200' };
-            if (code >= 95) return { text: 'Thunderstorm', icon: 'fa-cloud-bolt text-amber-500' };
-            return { text: 'Alpine Breeze', icon: 'fa-wind text-blue-300' };
-        }
+<!-- All packages -->
+<section id="packages">
+  <div class="sec-head">
+    <h2>Every trip we run this season</h2>
+    <p>Dates, nights and seats are updated in our package list. Tap Enquire to ask about any trip on WhatsApp.</p>
+  </div>
+  <div class="grid">
+  <?php foreach ($packages as $i => $p): ?>
+    <div class="tile">
+      <div class="photo" style="--fb:linear-gradient(135deg,<?= $fallbacks[$i][0] ?>,<?= $fallbacks[$i][1] ?>)">
+        <img src="<?= e($p['img']) ?>" alt="<?= e($p['dest']) ?>" loading="lazy" referrerpolicy="no-referrer" data-wiki='<?= e(json_encode($wikiTitles[$i])) ?>' <?= $i === 0 ? 'data-place="gulmarg"' : '' ?> onerror="wikiImg(this)">
+      </div>
+      <div class="tile-b">
+        <h3><?= e($p['name']) ?></h3>
+        <div class="meta">
+          <span><?= e($p['dest']) ?></span>
+          <span><?= e($p['duration']) ?></span>
+          <span><?= e(date('j M Y', strtotime($p['date']))) ?></span>
+          <span><?= (int)$p['seats'] ?> seats left</span>
+        </div>
+        <p><?= e($p['desc']) ?></p>
+        <div class="tile-f">
+          <strong><?= e(money($p['price'])) ?></strong>
+          <a href="<?= e(wa_link("Hello " . BRAND . ", I'm interested in the " . $p['name'] . ".")) ?>" target="_blank" rel="noopener">Enquire</a>
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+  </div>
+</section>
 
-        // FETCH REAL LIVE WEATHER VIA OPEN-METEO API WHEN INTERNET IS CONNECTED
-        async function fetchLiveWeatherForPackage(index) {
-            const pkg = packages[index];
-            if (!navigator.onLine) {
-                updateOnlineStatusUI(false);
-                return;
-            }
+<!-- Contact -->
+<section id="contact">
+  <div class="contact">
+    <div>
+      <h2>Tell us where you want to go</h2>
+      <p>Send us your dates and group size. We'll reply with a plan and a final price.</p>
+    </div>
+    <div class="ways">
+      <a class="way" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" fill="#25d366"><path d="M16 3a13 13 0 0 0-11 19.9L3 29l6.3-1.9A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.7 1.1 1.2-3.6-.3-.4A10.6 10.6 0 1 1 16 26.600zm5.800-7.900c-.3-.2-1.900-.9-2.200-1s-.5-.2-.7.2-.8 1-1 1.200-.4.200-.7.100a8.700 8.700 0 0 1-4.300-3.800c-.3-.6.300-.5.900-1.700.1-.2 0-.4 0-.5l-1-2.300c-.3-.6-.5-.5-.7-.5h-.6a1.200 1.200 0 0 0-.9.400 3.700 3.700 0 0 0-1.100 2.700 6.400 6.400 0 0 0 1.300 3.400 14.700 14.700 0 0 0 5.600 4.900c2.100.9 2.900 1 3.900.8a3.300 3.300 0 0 0 2.200-1.600 2.700 2.700 0 0 0 .2-1.600c-.1-.1-.3-.2-.6-.4z"/></svg>
+        <div><b>WhatsApp</b><span>Chat with us directly</span></div>
+      </a>
+      <a class="way" href="mailto:<?= e(EMAIL) ?>?subject=<?= rawurlencode('Kashmir trip enquiry') ?>">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e9a23b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>
+        <div><b>Email</b><span><?= e(EMAIL) ?></span></div>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
 
-            try {
-                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pkg.lat}&longitude=${pkg.lon}&current_weather=true`);
-                if (!response.ok) throw new Error('Network weather response error');
+<footer>
+  <span>© <?= date('Y') ?> <?= e(BRAND) ?>. All rights reserved.</span>
+  <span><a href="mailto:<?= e(EMAIL) ?>"><?= e(EMAIL) ?></a></span>
+</footer>
 
-                const data = await response.json();
-                if (data && data.current_weather) {
-                    const temp = Math.round(data.current_weather.temperature);
-                    const code = data.current_weather.weathercode;
-                    const condition = decodeWmoCode(code);
+<!-- WhatsApp floating window -->
+<div class="wa-win" id="waWin" role="dialog" aria-label="Chat with <?= e(BRAND) ?> on WhatsApp">
+  <div class="wa-top">
+    <div class="wa-av">D</div>
+    <div><b><?= e(BRAND) ?></b><small>Chat with our team</small></div>
+    <button class="wa-x" id="waClose" aria-label="Close chat">&times;</button>
+  </div>
+  <div class="wa-body">
+    <div class="bubble">Hello! Which Kashmir trip are you planning? Choose a package or type your question below.</div>
+    <label class="sr-only" for="waPick" style="position:absolute;left:-9999px">Package</label>
+    <select id="waPick">
+      <option value="">Not sure yet</option>
+      <?php foreach ($packages as $p): ?>
+      <option value="<?= e($p['name']) ?>"><?= e($p['name']) ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <form class="wa-form" id="waForm">
+    <input id="waMsg" type="text" placeholder="Type your message" aria-label="Your message" autocomplete="off">
+    <button type="submit" aria-label="Send on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5l18-8.5L3 3.500v6.600l12 1.900-12 1.900z"/></svg></button>
+  </form>
+  <span class="wa-mail">Prefer email? <a href="mailto:<?= e(EMAIL) ?>"><?= e(EMAIL) ?></a></span>
+</div>
+<button class="wa-fab" id="waFab" aria-label="Open WhatsApp chat" aria-expanded="false">
+  <svg viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11 19.9L3 29l6.3-1.9A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.7 1.1 1.2-3.6-.3-.4A10.6 10.6 0 1 1 16 26.600zm5.800-7.900c-.3-.2-1.900-.9-2.200-1s-.5-.2-.7.2-.8 1-1 1.200-.4.200-.7.100a8.700 8.700 0 0 1-4.300-3.800c-.3-.6.300-.5.900-1.700.1-.2 0-.4 0-.5l-1-2.300c-.3-.6-.5-.5-.7-.5h-.6a1.200 1.200 0 0 0-.9.400 3.700 3.700 0 0 0-1.100 2.700 6.400 6.400 0 0 0 1.300 3.400 14.700 14.700 0 0 0 5.600 4.900c2.100.9 2.900 1 3.900.8a3.300 3.300 0 0 0 2.200-1.600 2.700 2.700 0 0 0 .2-1.600c-.1-.1-.3-.2-.6-.4z"/></svg>
+</button>
 
-                    const formattedTemp = `${temp}° C`;
-                    liveWeatherData[index] = { temp: formattedTemp, condition: condition };
+<script>
+(function(){
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var n = cards.length, cur = 0, timer;
+  var dots = document.getElementById('dots');
+  cards.forEach(function(_, i){
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Show package ' + (i + 1));
+    b.onclick = function(){ go(i); restart(); };
+    dots.appendChild(b);
+  });
 
-                    // Update UI card temp element
-                    const cardTempEl = document.getElementById(`card-temp-${index}`);
-                    if (cardTempEl) cardTempEl.innerText = formattedTemp;
+  function cardW(){ return cards[0].offsetWidth; }
+  function render(){
+    var narrow = window.innerWidth < 820;
+    var gap = cardW() * (narrow ? 0.62 : 0.86);
+    cards.forEach(function(c, i){
+      var o = ((i - cur) % n + n) % n;
+      if (o > n / 2) o -= n;           // -3..2
+      var a = Math.abs(o);
+      var visible = narrow ? a <= 1 : a <= 2;
+      var scale = a === 0 ? 1.06 : (a === 1 ? 0.88 : 0.74);
+      var rot = o * -7;
+      c.style.transform = 'translateX(' + (o * gap) + 'px) translateY(' + (a * 26) + 'px) scale(' + scale + ') rotateY(' + rot + 'deg)';
+      c.style.zIndex = 10 - a;
+      c.style.opacity = visible ? (a === 2 ? 0.7 : 1) : 0;
+      c.style.pointerEvents = visible ? 'auto' : 'none';
+      c.classList.toggle('active', a === 0);
+      c.classList.toggle('side', a !== 0);
+      c.setAttribute('aria-hidden', a === 0 ? 'false' : 'true');
+    });
+    Array.prototype.forEach.call(dots.children, function(d, i){ d.classList.toggle('on', i === cur); });
+  }
+  function go(i){ cur = (i % n + n) % n; render(); }
+  function restart(){
+    clearInterval(timer);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(function(){ go(cur + 1); }, 5500);
+  }
+  cards.forEach(function(c, i){
+    c.addEventListener('click', function(e){
+      if (i !== cur && !e.target.closest('.fly')) { e.preventDefault(); go(i); restart(); }
+    });
+  });
+  document.getElementById('prev').onclick = function(){ go(cur - 1); restart(); };
+  document.getElementById('next').onclick = function(){ go(cur + 1); restart(); };
+  document.getElementById('stage').addEventListener('mouseenter', function(){ clearInterval(timer); });
+  document.getElementById('stage').addEventListener('mouseleave', restart);
+  var sx = null, st = document.getElementById('stage');
+  st.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});
+  st.addEventListener('touchend', function(e){
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) { go(cur + (dx < 0 ? 1 : -1)); restart(); }
+    sx = null;
+  });
+  window.addEventListener('resize', render);
+  render(); restart();
 
-                    // Update widget if active
-                    if (index === activeIndex) {
-                        updateWeatherWidget(pkg.destination.split(',')[0], formattedTemp, condition, pkg.elevation);
-                    }
-                    updateOnlineStatusUI(true);
-                }
-            } catch (err) {
-                console.warn("Weather sync fallback to cached data:", err);
-                updateOnlineStatusUI(false);
-            }
-        }
 
-        function updateWeatherWidget(city, tempStr, condition, elevation) {
-            const weatherEl = document.getElementById('active-weather');
-            const elevEl = document.getElementById('active-elevation');
-            const iconContainer = document.getElementById('weather-icon-container');
+  /* Hero background (nature) and snowy Gulmarg photo */
+  /* Cover photo: Kashmir landscape from Wikimedia Commons, people filtered out */
+  function preload(u, ok){ var im = new Image(); im.onload = function(){ ok(u); }; im.src = u; }
+  var heroQueries = ['Dal Lake Srinagar landscape', 'Kashmir valley landscape', 'Pahalgam valley', 'Sonamarg meadow mountains', 'Gurez valley', 'Kashmir mountains lake', 'Chinar tree autumn Kashmir'];
+  (function tryHero(q){
+    if (!q.length) return;
+    commonsPhoto(q.shift(), 1200).then(function(u){
+      if (!u) return tryHero(q);
+      preload(u, function(){
+        var el = document.getElementById('heroImg');
+        el.style.backgroundImage = 'url(' + u + ')';
+        el.classList.add('on');
+      });
+    });
+  })(heroQueries.slice());
 
-            if (weatherEl) weatherEl.innerText = `${city}: ${tempStr} ${condition.text}`;
-            if (elevEl) elevEl.innerText = `Elevation: ${elevation}`;
-            if (iconContainer) {
-                iconContainer.innerHTML = `<i class="fa-solid ${condition.icon}"></i>`;
-            }
-        }
-
-        function updateOnlineStatusUI(isOnline) {
-            const statusDot = document.getElementById('net-status-dot');
-            const statusText = document.getElementById('net-status-text');
-
-            if (isOnline) {
-                if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-emerald-400 live-pulse";
-                if (statusText) {
-                    statusText.innerText = "Live Weather Sync Active";
-                    statusText.className = "text-emerald-400 font-bold uppercase tracking-wider";
-                }
-            } else {
-                if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-amber-400";
-                if (statusText) {
-                    statusText.innerText = "Offline Mode (Cached)";
-                    statusText.className = "text-amber-400 font-bold uppercase tracking-wider";
-                }
-            }
-        }
-
-        function getCardWidth() {
-            const screenWidth = window.innerWidth;
-            if (screenWidth < 380) return 280;
-            if (screenWidth < 640) return 310;
-            return 340;
-        }
-
-        function update3DPositions() {
-            const screenWidth = window.innerWidth;
-            const cardWidth = getCardWidth();
-            
-            let spacingRatio = 0.72;
-            if (screenWidth < 640) spacingRatio = 0.52;
-            else if (screenWidth < 1024) spacingRatio = 0.62;
-
-            const spacing = cardWidth * spacingRatio;
-
-            for (let i = 0; i < totalCards; i++) {
-                const card = document.getElementById(`card-${i}`);
-                const dot = document.getElementById(`dot-${i}`);
-                const offset = i - activeIndex;
-
-                if (offset === 0) {
-                    card.style.transform = `translate3d(-50%, -50%, 0px) rotateY(0deg) scale(1)`;
-                    card.style.opacity = '1';
-                    card.style.zIndex = '30';
-                    card.style.filter = 'blur(0px)';
-                    card.style.pointerEvents = 'auto';
-
-                    if (dot) dot.className = "cursor-pointer h-2 rounded-full transition-all duration-300 bg-blue-500 w-8";
-
-                    // Trigger Live Weather update for active card
-                    fetchLiveWeatherForPackage(i);
-
-                } else if (offset < 0) {
-                    const distance = Math.abs(offset);
-                    const translateX = -50 + (offset * (spacing / cardWidth) * 100);
-                    const translateZ = -100 * distance;
-                    const rotateY = Math.min(22, 10 * distance);
-
-                    card.style.transform = `translate3d(${translateX}%, -50%, ${translateZ}px) rotateY(${rotateY}deg) scale(${Math.max(0.72, 1 - distance * 0.12)})`;
-                    card.style.opacity = distance > 2 ? '0' : '0.6';
-                    card.style.zIndex = `${30 - distance}`;
-                    card.style.filter = 'blur(1px)';
-
-                    if (dot) dot.className = "cursor-pointer h-2 rounded-full transition-all duration-300 bg-white/30 w-2";
-                } else {
-                    const distance = Math.abs(offset);
-                    const translateX = -50 + (offset * (spacing / cardWidth) * 100);
-                    const translateZ = -100 * distance;
-                    const rotateY = -Math.min(22, 10 * distance);
-
-                    card.style.transform = `translate3d(${translateX}%, -50%, ${translateZ}px) rotateY(${rotateY}deg) scale(${Math.max(0.72, 1 - distance * 0.12)})`;
-                    card.style.opacity = distance > 2 ? '0' : '0.6';
-                    card.style.zIndex = `${30 - distance}`;
-                    card.style.filter = 'blur(1px)';
-
-                    if (dot) dot.className = "cursor-pointer h-2 rounded-full transition-all duration-300 bg-white/30 w-2";
-                }
-            }
-        }
-
-        // CURRENCY CONVERTER CALCULATOR
-        function convertCurrency() {
-            const selected = document.getElementById('currency-select').value;
-            let rates = { 'INR': { symbol: '₹', factor: 1 }, 'USD': { symbol: '$', factor: 0.012 }, 'EUR': { symbol: '€', factor: 0.011 }, 'PKR': { symbol: 'Rs', factor: 3.35 } };
-            const curr = rates[selected] || rates['INR'];
-
-            packages.forEach((pkg, idx) => {
-                const el = document.getElementById(`card-price-${idx}`);
-                if (el) {
-                    const converted = Math.round(pkg.price * curr.factor);
-                    el.innerText = `${curr.symbol} ${converted.toLocaleString()}`;
-                }
-            });
-        }
-
-        function selectCard(index) {
-            activeIndex = index;
-            update3DPositions();
-        }
-
-        function nextCard() {
-            activeIndex = (activeIndex < totalCards - 1) ? activeIndex + 1 : 0;
-            update3DPositions();
-        }
-
-        function prevCard() {
-            activeIndex = (activeIndex > 0) ? activeIndex - 1 : totalCards - 1;
-            update3DPositions();
-        }
-
-        function openBookingModal(pkgName) {
-            document.getElementById('modal-pkg-name').value = pkgName;
-            document.getElementById('booking-modal').classList.remove('hidden');
-        }
-
-        function closeBookingModal() {
-            document.getElementById('booking-modal').classList.add('hidden');
-        }
-
-        // SWIPE GESTURE SUPPORT FOR MOBILE SMARTPHONES
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const viewport = document.getElementById('touch-viewport');
-
-        viewport.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        viewport.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 30) nextCard();
-            if (touchEndX > touchStartX + 30) prevCard();
-        }
-
-        // KEYBOARD ARROW CONTROLS
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') nextCard();
-            if (e.key === 'ArrowLeft') prevCard();
-            if (e.key === 'Escape') closeBookingModal();
+  var snowQueries = ['Gulmarg snow', 'Gulmarg winter snow', 'Gulmarg meadow snow', 'Gulmarg Apharwat'];
+  (function trySnow(q){
+    if (!q.length) return;
+    commonsPhoto(q.shift(), 1200).then(function(u){
+      if (!u) return trySnow(q);
+      preload(u, function(){
+        document.querySelectorAll('[data-place="gulmarg"]').forEach(function(im){
+          im.onerror = null; im.style.display = ''; im.src = u;
         });
+      });
+    });
+  })(snowQueries.slice());
 
-        // NETWORK ONLINE/OFFLINE EVENT LISTENERS
-        window.addEventListener('online', () => {
-            updateOnlineStatusUI(true);
-            fetchLiveWeatherForPackage(activeIndex);
-        });
-
-        window.addEventListener('offline', () => {
-            updateOnlineStatusUI(false);
-        });
-
-        // INITIALIZE SLIDER
-        window.addEventListener('load', () => {
-            update3DPositions();
-            // Pre-fetch live weather for all destinations in background
-            packages.forEach((_, idx) => fetchLiveWeatherForPackage(idx));
-        });
-        window.addEventListener('resize', update3DPositions);
-    </script>
+  /* WhatsApp window */
+  var win = document.getElementById('waWin'), fab = document.getElementById('waFab');
+  function toggle(open){
+    win.classList.toggle('open', open);
+    fab.setAttribute('aria-expanded', open);
+    if (open) document.getElementById('waMsg').focus();
+  }
+  fab.onclick = function(){ toggle(!win.classList.contains('open')); };
+  document.getElementById('waClose').onclick = function(){ toggle(false); };
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') toggle(false); });
+  document.getElementById('waForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var pick = document.getElementById('waPick').value;
+    var msg = document.getElementById('waMsg').value.trim();
+    var text = 'Hello <?= e(BRAND) ?>' + (pick ? ', I am interested in the ' + pick + '.' : '.') + (msg ? ' ' + msg : '');
+    window.open('https://wa.me/<?= e(WA_NUMBER) ?>?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  });
+})();
+</script>
 </body>
 </html>
