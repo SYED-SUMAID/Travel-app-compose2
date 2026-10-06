@@ -16,8 +16,6 @@ services:
     environment:
       DB_HOST: db
 
-    volumes:
-      - ./src/index.php:/var/www/html/index.php
 
     networks:
       - travel-network
