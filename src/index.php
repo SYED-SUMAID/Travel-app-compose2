@@ -1,6 +1,6 @@
 <?php
 // ---------- Settings: edit these ----------
-const BRAND        = 'Darsafar';
+const BRAND        = 'Dar-As-Safar';
 const EMAIL        = 'darasafar@gmail.com';
 const WA_NUMBER    = '91XXXXXXXXXX'; // country code + number, digits only. Example: 919876543210
 const CURRENCY     = '₹';
@@ -17,10 +17,10 @@ $packages = [
 $keys = ['name','dest','date','duration','price','seats','desc','img'];
 $packages = array_map(fn($p) => array_combine($keys, $p), $packages);
 
-// Distinct fallback colours shown if an online image fails to load
+// Muted fallback colours shown if an online image fails to load
 $fallbacks = [
-  ['#2b4a6b','#9fc4e0'], ['#1f5c63','#7fd0c7'], ['#2f5a3a','#a5d08a'],
-  ['#6b5a2b','#e6c77a'], ['#27503f','#8cc7a5'], ['#3b3f63','#a7abd8'],
+  ['#3a4a57','#a9b8c3'], ['#2f4a4c','#9db8b5'], ['#3b4d3f','#a9bba3'],
+  ['#5a5238','#c4b88f'], ['#34493f','#9fb5a8'], ['#3f4259','#aeb1c6'],
 ];
 
 // Wikipedia page titles used to fetch a real photo of each place when the direct image link fails
@@ -46,245 +46,134 @@ function money($n) { return CURRENCY . number_format($n); }
 <meta name="description" content="<?= e(BRAND) ?> plans Kashmir trips to Gulmarg, Srinagar, Pahalgam, Sonamarg, Doodhpathri and Gurez Valley.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --night:#0d1513;
-  --night-2:#131f1c;
-  --paper:#f7f5f0;
-  --ink:#1a1f1e;
-  --muted:#6d7673;
-  --glacier:#1fa7a3;
-  --saffron:#e9a23b;
+  --paper:#fbfaf7;
+  --white:#ffffff;
+  --ink:#16221e;
+  --ink-2:#3d4a45;
+  --muted:#75807b;
+  --line:#e2e0d9;
+  --forest:#1f3a31;
+  --gold:#8f7338;
   --wa:#25d366;
   --wa-dark:#075e54;
-  --display:'Fraunces',Georgia,serif;
+  --display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
   --body:'Hanken Grotesk',system-ui,sans-serif;
-  --card-w:300px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--night);color:#e9efec;line-height:1.55;overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:3px solid var(--saffron);outline-offset:3px;border-radius:6px}
 img{display:block;max-width:100%}
-
-/* contour-line backdrop */
-.backdrop{position:fixed;inset:0;z-index:-1;background:
-  radial-gradient(ellipse at 50% 30%,#1b2e29 0%,transparent 60%),
-  radial-gradient(ellipse at 15% 90%,#2a2116 0%,transparent 45%),
-  var(--night)}
-.backdrop svg{position:absolute;inset:0;width:100%;height:100%;opacity:.16}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1160px;margin:auto;padding:0 28px}
 
 /* header */
-header{position:sticky;top:0;z-index:50;background:rgba(13,21,19,.78);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)}
-.nav{max-width:1180px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo{font-family:var(--display);font-weight:700;font-size:1.6rem;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
-.logo i{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--glacier),var(--saffron));display:grid;place-items:center}
-.logo i svg{width:17px;height:17px}
-.nav ul{display:flex;gap:28px;list-style:none;font-weight:500;font-size:.95rem;color:#c5d0cc}
-.nav ul a:hover{color:#fff}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.95rem;border:0;cursor:pointer;font-family:inherit}
-.btn-wa{background:var(--wa);color:#04331d}
-.btn-wa:hover{filter:brightness(1.07)}
-.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.16)}
-.btn-ghost:hover{background:rgba(255,255,255,.14)}
+header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+.logo{font-family:var(--display);font-weight:700;font-size:1.75rem;letter-spacing:.01em;color:var(--forest)}
+.nav ul{display:flex;gap:34px;list-style:none;font-size:.95rem;color:var(--ink-2)}
+.nav ul a:hover{color:var(--gold)}
+.btn{display:inline-block;padding:11px 24px;border-radius:2px;font-weight:500;font-size:.92rem;border:1px solid var(--forest);background:var(--forest);color:#fff;cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+.btn:hover{background:transparent;color:var(--forest)}
+.btn-light{background:#fff;color:var(--forest);border-color:#fff}
+.btn-light:hover{background:transparent;color:#fff}
 
 /* hero */
-.hero{max-width:1180px;margin:auto;padding:64px 24px 0;text-align:center}
-.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.4rem);line-height:1.05;letter-spacing:-.01em;max-width:15ch;margin:0 auto 18px}
-.hero p{max-width:52ch;margin:0 auto;color:#aebbb6;font-size:1.08rem}
-
-
-/* hero photo background */
-.hero-wrap{position:relative;padding-bottom:30px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,#16373a,#0d1513 70%);opacity:1}
-.hero-bg i{position:absolute;inset:0;background-size:cover;background-position:center 50%;opacity:0;transition:opacity 1.2s ease}
+.hero{position:relative;color:#fff;background:linear-gradient(160deg,#2a4540,#16221e 70%)}
+.hero-bg{position:absolute;inset:0;overflow:hidden}
+.hero-bg i{position:absolute;inset:0;background-size:cover;background-position:center 45%;opacity:0;transition:opacity 1.2s ease}
 .hero-bg i.on{opacity:1}
-.hero-bg::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(180deg,rgba(13,21,19,.55) 0%,rgba(13,21,19,.25) 30%,rgba(13,21,19,.55) 65%,var(--night) 100%)}
-.hero-wrap>*:not(.hero-bg){position:relative;z-index:1}
-.hero h1{text-shadow:0 4px 30px rgba(0,0,0,.45)}
-.hero p{color:#e2ebe7;text-shadow:0 2px 14px rgba(0,0,0,.5)}
-
-/* floating card stage */
-.stage{position:relative;height:620px;margin-top:34px;perspective:1400px}
-.card{position:absolute;left:50%;top:40px;width:var(--card-w);margin-left:calc(var(--card-w) / -2);
-  transition:transform .7s cubic-bezier(.22,.8,.24,1),opacity .5s,filter .5s;cursor:pointer;will-change:transform}
-.card-in{background:#fff;color:var(--ink);border-radius:26px;padding:10px 10px 18px;
-  box-shadow:0 30px 60px -20px rgba(0,0,0,.65),0 8px 20px rgba(0,0,0,.25);text-align:left}
-.card.active .card-in{animation:float 6s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.card.side{filter:brightness(.72) saturate(.9)}
-.photo{position:relative;height:210px;border-radius:18px;overflow:hidden;background:var(--fb)}
-.photo img{width:100%;height:100%;object-fit:cover}
-.photo .tag{position:absolute;left:10px;top:10px;background:rgba(13,21,19,.7);backdrop-filter:blur(6px);color:#fff;font-size:.78rem;font-weight:600;padding:5px 11px;border-radius:999px}
-.card-body{padding:16px 10px 0}
-.card h3{font-family:var(--display);font-size:1.32rem;line-height:1.15;font-weight:700}
-.loc{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.86rem;margin:6px 0 10px}
-.loc svg{width:14px;height:14px;flex:none}
-.card p.d{font-size:.84rem;color:#4b5451;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:3.9em}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 4px;padding-top:12px;border-top:1px solid #ebe8e1}
-.stats span{display:block;font-size:.72rem;color:var(--muted)}
-.stats b{font-size:.95rem;color:var(--glacier);font-weight:700}
-.foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:12px}
-.foot small{display:block;color:var(--muted);font-size:.74rem}
-.foot strong{font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
-.fly{width:50px;height:50px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;transition:transform .2s,background .2s}
-.fly:hover{background:var(--glacier);transform:scale(1.08)}
-.fly svg{width:22px;height:22px}
-
-.controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:6px}
-.arrow{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;cursor:pointer;display:grid;place-items:center}
-.arrow:hover{background:rgba(255,255,255,.16)}
-.arrow svg{width:20px;height:20px}
-.dots{display:flex;gap:8px}
-.dots button{width:9px;height:9px;border-radius:99px;border:0;background:rgba(255,255,255,.28);cursor:pointer;transition:width .3s,background .3s}
-.dots button.on{width:28px;background:var(--saffron)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,24,21,.78) 0%,rgba(14,24,21,.5) 55%,rgba(14,24,21,.3) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-top:140px;padding-bottom:150px}
+.hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.8rem,6vw,5rem);line-height:1.04;max-width:13ch;margin-bottom:22px}
+.hero p{max-width:46ch;font-size:1.08rem;color:#e6ece9;margin-bottom:34px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-line{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+.btn-line:hover{background:#fff;color:var(--forest)}
 
 /* sections */
-section{max-width:1180px;margin:auto;padding:96px 24px 0}
-.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
-.sec-head h2{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.1;max-width:18ch}
-.sec-head p{color:#aebbb6;max-width:42ch}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
-.tile{background:var(--night-2);border:1px solid rgba(255,255,255,.08);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
-.tile .photo{height:200px;border-radius:0}
-.tile-b{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
-.tile h3{font-family:var(--display);font-size:1.25rem}
-.tile p{color:#aebbb6;font-size:.92rem;flex:1}
-.meta{display:flex;flex-wrap:wrap;gap:8px}
-.meta span{font-size:.8rem;background:rgba(255,255,255,.07);padding:5px 11px;border-radius:999px;color:#d6e0dc}
-.tile-f{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
-.tile-f strong{font-size:1.35rem}
-.tile-f a{background:var(--wa);color:#04331d;font-weight:600;font-size:.88rem;padding:9px 16px;border-radius:999px}
+section{padding:96px 0 0}
+.sec-head{max-width:560px;margin-bottom:48px}
+.sec-head h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,3.6vw,2.8rem);line-height:1.1;color:var(--forest);margin-bottom:12px}
+.sec-head p{color:var(--ink-2)}
 
-.contact{background:linear-gradient(135deg,#123a37,#1b2d27 60%,#33260f);border-radius:28px;padding:56px 40px;display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;border:1px solid rgba(255,255,255,.08)}
-.contact h2{font-family:var(--display);font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.1;margin-bottom:12px}
-.contact p{color:#c3d1cc;max-width:44ch}
-.ways{display:grid;gap:14px}
-.way{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:16px 18px;border-radius:16px}
-.way:hover{background:rgba(255,255,255,.12)}
-.way svg{width:26px;height:26px;flex:none}
-.way b{display:block;font-size:1rem}
-.way span{font-size:.86rem;color:#b8c7c2}
-footer{max-width:1180px;margin:auto;padding:70px 24px 40px;color:#8b9994;font-size:.88rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* packages */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:36px 30px}
+.pkg{background:var(--white);border:1px solid var(--line);display:flex;flex-direction:column}
+.photo{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--fb)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.pkg-b{padding:24px 24px 22px;display:flex;flex-direction:column;flex:1}
+.pkg h3{font-family:var(--display);font-weight:700;font-size:1.55rem;line-height:1.15;color:var(--forest)}
+.loc{color:var(--gold);font-size:.9rem;font-weight:500;margin:4px 0 12px}
+.pkg p.d{color:var(--ink-2);font-size:.92rem;margin-bottom:18px;flex:1}
+dl{border-top:1px solid var(--line)}
+dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+dt{color:var(--muted)}
+dd{font-weight:500;text-align:right}
+.pkg-f{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.price small{display:block;color:var(--muted);font-size:.78rem;line-height:1.2}
+.price strong{font-family:var(--display);font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1.1}
+.enq{border:1px solid var(--forest);color:var(--forest);padding:9px 20px;font-size:.9rem;font-weight:500;border-radius:2px;transition:background .2s,color .2s}
+.enq:hover{background:var(--forest);color:#fff}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;border-top:1px solid var(--line);padding-top:72px}
+.contact h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,3.6vw,2.8rem);line-height:1.1;color:var(--forest);margin-bottom:12px}
+.contact p{color:var(--ink-2);max-width:42ch}
+.ways{display:grid;gap:0;border:1px solid var(--line);background:var(--white)}
+.way{display:flex;align-items:center;gap:16px;padding:22px 24px}
+.way+.way{border-top:1px solid var(--line)}
+.way:hover{background:var(--paper)}
+.way svg{width:24px;height:24px;flex:none}
+.way b{display:block;font-weight:600}
+.way span{font-size:.88rem;color:var(--muted)}
+footer{padding:80px 0 40px;color:var(--muted);font-size:.88rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:26px}
+footer a:hover{color:var(--gold)}
 
 /* whatsapp floating window */
-.wa-fab{position:fixed;right:22px;bottom:22px;z-index:90;width:62px;height:62px;border-radius:50%;background:var(--wa);border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45)}
-.wa-fab svg{width:34px;height:34px}
-.wa-win{position:fixed;right:22px;bottom:96px;z-index:90;width:340px;max-width:calc(100vw - 32px);border-radius:20px;overflow:hidden;background:#efeae2;color:var(--ink);
-  box-shadow:0 30px 70px rgba(0,0,0,.55);transform-origin:bottom right;transform:scale(.6) translateY(30px);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.22,.9,.3,1),opacity .25s}
+.wa-fab{position:fixed;right:max(22px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));z-index:90;width:58px;height:58px;border-radius:50%;background:var(--wa);border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+.wa-fab svg{width:30px;height:30px}
+.wa-win{position:fixed;right:max(22px,env(safe-area-inset-right));bottom:calc(max(22px,env(safe-area-inset-bottom)) + 72px);z-index:90;width:330px;max-width:calc(100vw - 28px);max-height:calc(100vh - 120px);overflow-y:auto;border-radius:6px;overflow:hidden;background:#efeae2;color:var(--ink);
+  box-shadow:0 20px 50px rgba(0,0,0,.3);transform-origin:bottom right;transform:scale(.7) translateY(20px);opacity:0;pointer-events:none;transition:transform .25s ease,opacity .2s}
 .wa-win.open{transform:none;opacity:1;pointer-events:auto}
-.wa-top{background:var(--wa-dark);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
-.wa-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--glacier),var(--saffron));display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.2rem}
+.wa-top{background:var(--wa-dark);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.wa-av{width:38px;height:38px;border-radius:50%;background:#fff;color:var(--forest);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.3rem}
 .wa-top b{display:block;line-height:1.2}
 .wa-top small{opacity:.85;font-size:.8rem}
 .wa-x{margin-left:auto;background:none;border:0;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1}
-.wa-body{padding:18px;min-height:130px}
-.bubble{background:#fff;padding:11px 14px;border-radius:0 14px 14px 14px;font-size:.92rem;max-width:88%;box-shadow:0 1px 1px rgba(0,0,0,.12)}
-.wa-body select{margin-top:14px;width:100%;padding:10px 12px;border-radius:10px;border:1px solid #cfc8bb;background:#fff;font-family:inherit;font-size:.9rem}
+.wa-body{padding:16px;min-height:120px}
+.bubble{background:#fff;padding:10px 13px;border-radius:0 10px 10px 10px;font-size:.92rem;max-width:90%;box-shadow:0 1px 1px rgba(0,0,0,.1)}
+.wa-body select{margin-top:14px;width:100%;padding:10px 12px;border-radius:4px;border:1px solid #cfc8bb;background:#fff;font-family:inherit;font-size:.9rem}
 .wa-form{display:flex;gap:8px;padding:12px;background:#f7f4ee}
-.wa-form input{flex:1;padding:12px 14px;border-radius:999px;border:1px solid #d6d0c4;font-family:inherit;font-size:.92rem;min-width:0}
-.wa-form button{width:44px;height:44px;border-radius:50%;border:0;background:var(--wa-dark);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
-.wa-form button svg{width:20px;height:20px}
-.wa-mail{display:block;text-align:center;font-size:.82rem;color:#4b5451;padding:0 12px 14px;background:#f7f4ee}
+.wa-form input{flex:1;padding:11px 14px;border-radius:999px;border:1px solid #d6d0c4;font-family:inherit;font-size:.92rem;min-width:0}
+.wa-form button{width:42px;height:42px;border-radius:50%;border:0;background:var(--wa-dark);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
+.wa-form button svg{width:18px;height:18px}
+.wa-mail{display:block;text-align:center;font-size:.82rem;color:var(--ink-2);padding:0 12px 14px;background:#f7f4ee}
 .wa-mail a{color:var(--wa-dark);font-weight:600;text-decoration:underline}
 
-@media (max-width:820px){
+@media (max-width:860px){
   .nav ul{display:none}
-  .contact{grid-template-columns:1fr;padding:36px 24px}
-  :root{--card-w:270px}
-  .photo{height:180px}
-  .stage{height:600px}
+  .contact{grid-template-columns:1fr;gap:32px}
+  .hero .wrap{padding-top:90px;padding-bottom:96px}
+  section{padding-top:72px}
 }
-@media (prefers-reduced-motion:reduce){
-  .card,.wa-win{transition:none}
-  .card.active .card-in{animation:none}
-  html{scroll-behavior:auto}
-}
-
-/* ================= Responsive polish (all screen sizes) ================= */
-html{-webkit-text-size-adjust:100%}
-.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
-.card,.tile,.contact{max-width:100%}
-.wa-fab{right:max(22px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom))}
-.wa-win{right:max(22px,env(safe-area-inset-right));bottom:calc(max(22px,env(safe-area-inset-bottom)) + 74px);max-height:calc(100vh - 120px);overflow-y:auto}
-
-/* Large desktops */
-@media (min-width:1500px){
-  :root{--card-w:330px}
-  .stage{height:660px}
-  .nav,.hero,section,footer{max-width:1320px}
-}
-
-/* Laptops and small desktops */
-@media (max-width:1100px){
-  .stage{height:600px}
-  .nav ul{gap:20px}
-}
-
-/* Tablets */
-@media (max-width:820px){
-  .nav{padding:12px 18px}
-  .hero{padding:44px 18px 0}
-  .hero-bg i{background-position:center 30%}
-  section{padding:72px 18px 0}
-  .sec-head{margin-bottom:26px}
-  .stage{height:590px}
-  .contact{border-radius:22px}
-  footer{padding:56px 18px 34px}
-}
-
-/* Phones */
-@media (max-width:600px){
-  :root{--card-w:260px}
-  .logo{font-size:1.35rem}
-  .logo i{width:26px;height:26px;border-radius:8px}
+@media (max-width:560px){
+  .wrap{padding:0 20px}
+  .nav{height:64px}
+  .logo{font-size:1.5rem}
   .nav .btn{padding:9px 14px;font-size:.85rem}
-  .hero{padding-top:34px}
-  .hero p{font-size:1rem}
-  .stage{height:575px;margin-top:22px}
-  .photo{height:170px}
-  .card-body{padding:14px 8px 0}
-  .card h3{font-size:1.2rem}
-  .foot strong{font-size:1.3rem}
-  .fly{width:46px;height:46px}
-  .arrow{width:42px;height:42px}
-  .dots button{width:8px;height:8px}
-  .dots button.on{width:22px}
-  section{padding-top:60px}
-  .tile .photo{height:190px}
-  .contact{padding:28px 20px}
-  .way{padding:14px}
-  footer{flex-direction:column;text-align:center;align-items:center}
-  .wa-fab{width:56px;height:56px}
-  .wa-fab svg{width:30px;height:30px}
-  .wa-win{width:calc(100vw - 28px);right:14px}
+  .hero .wrap{padding-top:64px;padding-bottom:72px}
+  .pkg-b{padding:20px}
+  .wa-win{right:14px;width:calc(100vw - 28px)}
 }
-
-/* Very small phones */
-@media (max-width:380px){
-  :root{--card-w:236px}
-  .nav .btn{display:none}
-  .stage{height:555px}
-  .photo{height:150px}
-  .card p.d{-webkit-line-clamp:2;min-height:2.6em}
-  .stats b{font-size:.85rem}
-  .foot strong{font-size:1.2rem}
-  .meta span{font-size:.75rem}
-}
-
-/* Short landscape phones */
-@media (max-height:520px) and (orientation:landscape){
-  .hero{padding-top:24px}
-  .hero h1{font-size:2rem}
-  .wa-win{max-height:calc(100vh - 100px)}
-}
-
-/* Touch devices: no hover-only effects needed */
-@media (hover:none){
-  .fly:hover{transform:none}
+@media (max-width:360px){ .nav .btn{display:none} }
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  html{scroll-behavior:auto}
 }
 </style>
 <script>
@@ -336,132 +225,92 @@ function wikiImg(img){
 </script>
 </head>
 <body>
-<div class="backdrop" aria-hidden="true">
-  <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 800" fill="none" stroke="#c9a66b" stroke-width="1">
-    <?php for ($i = 1; $i <= 9; $i++): ?>
-    <ellipse cx="380" cy="300" rx="<?= 60 + $i * 70 ?>" ry="<?= 40 + $i * 46 ?>" transform="rotate(-14 380 300)"/>
-    <ellipse cx="900" cy="560" rx="<?= 40 + $i * 58 ?>" ry="<?= 30 + $i * 38 ?>" transform="rotate(18 900 560)"/>
-    <?php endfor; ?>
-  </svg>
-</div>
 
 <header>
-  <div class="nav">
-    <a href="#top" class="logo" id="top">
-      <i><svg viewBox="0 0 24 24" fill="#0d1513"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i>
-      <?= e(BRAND) ?>
-    </a>
+  <div class="wrap nav">
+    <a href="#top" class="logo" id="top"><?= e(BRAND) ?></a>
     <ul>
       <li><a href="#packages">Packages</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a class="btn btn-wa" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">Chat on WhatsApp</a>
+    <a class="btn" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">Chat on WhatsApp</a>
   </div>
 </header>
 
 <main>
-<div class="hero-wrap">
-<div class="hero-bg" aria-hidden="true"><i id="heroImg"></i></div>
 <div class="hero">
-  <h1>Kashmir, planned for you</h1>
-  <p>Snow in Gulmarg, shikaras on Dal Lake, quiet valleys in Pahalgam and Gurez. Pick a trip and we handle the rest.</p>
-</div>
-
-<!-- Floating cards -->
-<div class="stage" id="stage" aria-roledescription="carousel" aria-label="Featured Kashmir packages">
-<?php foreach ($packages as $i => $p): ?>
-  <article class="card" data-i="<?= $i ?>" style="--fb:linear-gradient(135deg,<?= $fallbacks[$i][0] ?>,<?= $fallbacks[$i][1] ?>)">
-    <div class="card-in">
-      <div class="photo">
-        <img src="<?= e($p['img']) ?>" alt="<?= e($p['name']) ?> in <?= e($p['dest']) ?>" loading="<?= $i < 3 ? 'eager' : 'lazy' ?>" referrerpolicy="no-referrer" data-wiki='<?= e(json_encode($wikiTitles[$i])) ?>' <?= $i === 0 ? 'data-place="gulmarg"' : '' ?> onerror="wikiImg(this)">
-        <span class="tag"><?= e($p['duration']) ?></span>
-      </div>
-      <div class="card-body">
-        <h3><?= e($p['name']) ?></h3>
-        <div class="loc">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
-          <?= e($p['dest']) ?>
-        </div>
-        <p class="d"><?= e($p['desc']) ?></p>
-        <div class="stats">
-          <div><span>Departs</span><b><?= e(date('j M Y', strtotime($p['date']))) ?></b></div>
-          <div><span>Nights</span><b><?= e(explode('/', $p['duration'])[1] ?? '') ?></b></div>
-          <div><span>Seats left</span><b><?= (int)$p['seats'] ?></b></div>
-        </div>
-        <div class="foot">
-          <div><small>Price per person</small><strong><?= e(money($p['price'])) ?></strong></div>
-          <a class="fly" href="<?= e(wa_link("Hello " . BRAND . ", I'm interested in the " . $p['name'] . " (" . date('j M Y', strtotime($p['date'])) . ").")) ?>" target="_blank" rel="noopener" aria-label="Enquire about <?= e($p['name']) ?> on WhatsApp">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
-          </a>
-        </div>
-      </div>
+  <div class="hero-bg" aria-hidden="true"><i id="heroImg"></i></div>
+  <div class="wrap">
+    <h1>Kashmir, planned for you</h1>
+    <p>Snow in Gulmarg, shikaras on Dal Lake, quiet valleys in Pahalgam and Gurez. Pick a trip and we handle the rest.</p>
+    <div class="hero-actions">
+      <a class="btn btn-light" href="#packages">View packages</a>
+      <a class="btn btn-line" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">Plan with us</a>
     </div>
-  </article>
-<?php endforeach; ?>
-</div>
-
-<div class="controls">
-  <button class="arrow" id="prev" aria-label="Previous package"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <div class="dots" id="dots"></div>
-  <button class="arrow" id="next" aria-label="Next package"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
-</div>
-</div><!-- /hero-wrap -->
-
-<!-- All packages -->
-<section id="packages">
-  <div class="sec-head">
-    <h2>Every trip we run this season</h2>
-    <p>Dates, nights and seats are updated in our package list. Tap Enquire to ask about any trip on WhatsApp.</p>
   </div>
-  <div class="grid">
-  <?php foreach ($packages as $i => $p): ?>
-    <div class="tile">
-      <div class="photo" style="--fb:linear-gradient(135deg,<?= $fallbacks[$i][0] ?>,<?= $fallbacks[$i][1] ?>)">
-        <img src="<?= e($p['img']) ?>" alt="<?= e($p['dest']) ?>" loading="lazy" referrerpolicy="no-referrer" data-wiki='<?= e(json_encode($wikiTitles[$i])) ?>' <?= $i === 0 ? 'data-place="gulmarg"' : '' ?> onerror="wikiImg(this)">
-      </div>
-      <div class="tile-b">
-        <h3><?= e($p['name']) ?></h3>
-        <div class="meta">
-          <span><?= e($p['dest']) ?></span>
-          <span><?= e($p['duration']) ?></span>
-          <span><?= e(date('j M Y', strtotime($p['date']))) ?></span>
-          <span><?= (int)$p['seats'] ?> seats left</span>
-        </div>
-        <p><?= e($p['desc']) ?></p>
-        <div class="tile-f">
-          <strong><?= e(money($p['price'])) ?></strong>
-          <a href="<?= e(wa_link("Hello " . BRAND . ", I'm interested in the " . $p['name'] . ".")) ?>" target="_blank" rel="noopener">Enquire</a>
-        </div>
-      </div>
+</div>
+
+<!-- Packages -->
+<section id="packages">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Every trip we run this season</h2>
+      <p>Dates, nights and seats are updated in our package list. Tap Enquire to ask about any trip on WhatsApp.</p>
     </div>
-  <?php endforeach; ?>
+    <div class="grid">
+    <?php foreach ($packages as $i => $p): ?>
+      <article class="pkg">
+        <div class="photo" style="--fb:linear-gradient(135deg,<?= $fallbacks[$i][0] ?>,<?= $fallbacks[$i][1] ?>)">
+          <img src="<?= e($p['img']) ?>" alt="<?= e($p['name']) ?> in <?= e($p['dest']) ?>" loading="<?= $i < 3 ? 'eager' : 'lazy' ?>" referrerpolicy="no-referrer" data-wiki='<?= e(json_encode($wikiTitles[$i])) ?>' <?= $i === 0 ? 'data-place="gulmarg"' : '' ?> onerror="wikiImg(this)">
+        </div>
+        <div class="pkg-b">
+          <h3><?= e($p['name']) ?></h3>
+          <div class="loc"><?= e($p['dest']) ?></div>
+          <p class="d"><?= e($p['desc']) ?></p>
+          <dl>
+            <div><dt>Departs</dt><dd><?= e(date('j M Y', strtotime($p['date']))) ?></dd></div>
+            <div><dt>Duration</dt><dd><?= e($p['duration']) ?></dd></div>
+            <div><dt>Seats left</dt><dd><?= (int)$p['seats'] ?></dd></div>
+          </dl>
+          <div class="pkg-f">
+            <div class="price"><small>Price per person</small><strong><?= e(money($p['price'])) ?></strong></div>
+            <a class="enq" href="<?= e(wa_link("Hello " . BRAND . ", I'm interested in the " . $p['name'] . " (" . date('j M Y', strtotime($p['date'])) . ").")) ?>" target="_blank" rel="noopener" aria-label="Enquire about <?= e($p['name']) ?> on WhatsApp">Enquire</a>
+          </div>
+        </div>
+      </article>
+    <?php endforeach; ?>
+    </div>
   </div>
 </section>
 
 <!-- Contact -->
 <section id="contact">
-  <div class="contact">
-    <div>
-      <h2>Tell us where you want to go</h2>
-      <p>Send us your dates and group size. We'll reply with a plan and a final price.</p>
-    </div>
-    <div class="ways">
-      <a class="way" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">
-        <svg viewBox="0 0 32 32" fill="#25d366"><path d="M16 3a13 13 0 0 0-11 19.9L3 29l6.3-1.9A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.7 1.1 1.2-3.6-.3-.4A10.6 10.6 0 1 1 16 26.600zm5.800-7.900c-.3-.2-1.900-.9-2.200-1s-.5-.2-.7.2-.8 1-1 1.200-.4.200-.7.100a8.700 8.700 0 0 1-4.300-3.800c-.3-.6.300-.5.900-1.700.1-.2 0-.4 0-.5l-1-2.300c-.3-.6-.5-.5-.7-.5h-.6a1.200 1.200 0 0 0-.9.400 3.700 3.700 0 0 0-1.100 2.700 6.400 6.400 0 0 0 1.300 3.400 14.700 14.700 0 0 0 5.600 4.900c2.100.9 2.900 1 3.900.8a3.300 3.300 0 0 0 2.200-1.600 2.700 2.700 0 0 0 .2-1.600c-.1-.1-.3-.2-.6-.4z"/></svg>
-        <div><b>WhatsApp</b><span>Chat with us directly</span></div>
-      </a>
-      <a class="way" href="mailto:<?= e(EMAIL) ?>?subject=<?= rawurlencode('Kashmir trip enquiry') ?>">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#e9a23b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>
-        <div><b>Email</b><span><?= e(EMAIL) ?></span></div>
-      </a>
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <h2>Tell us where you want to go</h2>
+        <p>Send us your dates and group size. We'll reply with a plan and a final price.</p>
+      </div>
+      <div class="ways">
+        <a class="way" href="<?= e(wa_link('Hello ' . BRAND . ', I want to plan a Kashmir trip.')) ?>" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" fill="#25d366"><path d="M16 3a13 13 0 0 0-11 19.9L3 29l6.3-1.9A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.7 1.1 1.2-3.6-.3-.4A10.6 10.6 0 1 1 16 26.600zm5.800-7.900c-.3-.2-1.900-.9-2.200-1s-.5-.2-.7.2-.8 1-1 1.200-.4.200-.7.100a8.700 8.700 0 0 1-4.300-3.800c-.3-.6.300-.5.900-1.700.1-.2 0-.4 0-.5l-1-2.300c-.3-.6-.5-.5-.7-.5h-.6a1.200 1.200 0 0 0-.9.400 3.700 3.700 0 0 0-1.100 2.700 6.400 6.400 0 0 0 1.300 3.400 14.700 14.700 0 0 0 5.600 4.900c2.100.9 2.900 1 3.900.8a3.300 3.300 0 0 0 2.200-1.600 2.700 2.700 0 0 0 .2-1.600c-.1-.1-.3-.2-.6-.4z"/></svg>
+          <div><b>WhatsApp</b><span>Chat with us directly</span></div>
+        </a>
+        <a class="way" href="mailto:<?= e(EMAIL) ?>?subject=<?= rawurlencode('Kashmir trip enquiry') ?>">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8f7338" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
+          <div><b>Email</b><span><?= e(EMAIL) ?></span></div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
 </main>
 
 <footer>
-  <span>© <?= date('Y') ?> <?= e(BRAND) ?>. All rights reserved.</span>
-  <span><a href="mailto:<?= e(EMAIL) ?>"><?= e(EMAIL) ?></a></span>
+  <div class="wrap">
+    <span>© <?= date('Y') ?> <?= e(BRAND) ?>. All rights reserved.</span>
+    <span><a href="mailto:<?= e(EMAIL) ?>"><?= e(EMAIL) ?></a></span>
+  </div>
 </footer>
 
 <!-- WhatsApp floating window -->
@@ -473,7 +322,7 @@ function wikiImg(img){
   </div>
   <div class="wa-body">
     <div class="bubble">Hello! Which Kashmir trip are you planning? Choose a package or type your question below.</div>
-    <label class="sr-only" for="waPick" style="position:absolute;left:-9999px">Package</label>
+    <label for="waPick" style="position:absolute;left:-9999px">Package</label>
     <select id="waPick">
       <option value="">Not sure yet</option>
       <?php foreach ($packages as $p): ?>
@@ -493,66 +342,9 @@ function wikiImg(img){
 
 <script>
 (function(){
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
-  var n = cards.length, cur = 0, timer;
-  var dots = document.getElementById('dots');
-  cards.forEach(function(_, i){
-    var b = document.createElement('button');
-    b.setAttribute('aria-label', 'Show package ' + (i + 1));
-    b.onclick = function(){ go(i); restart(); };
-    dots.appendChild(b);
-  });
-
-  function cardW(){ return cards[0].offsetWidth; }
-  function render(){
-    var narrow = window.innerWidth < 820;
-    var gap = cardW() * (narrow ? 0.62 : 0.86);
-    cards.forEach(function(c, i){
-      var o = ((i - cur) % n + n) % n;
-      if (o > n / 2) o -= n;           // -3..2
-      var a = Math.abs(o);
-      var visible = narrow ? a <= 1 : a <= 2;
-      var scale = a === 0 ? 1.06 : (a === 1 ? 0.88 : 0.74);
-      var rot = o * -7;
-      c.style.transform = 'translateX(' + (o * gap) + 'px) translateY(' + (a * 26) + 'px) scale(' + scale + ') rotateY(' + rot + 'deg)';
-      c.style.zIndex = 10 - a;
-      c.style.opacity = visible ? (a === 2 ? 0.7 : 1) : 0;
-      c.style.pointerEvents = visible ? 'auto' : 'none';
-      c.classList.toggle('active', a === 0);
-      c.classList.toggle('side', a !== 0);
-      c.setAttribute('aria-hidden', a === 0 ? 'false' : 'true');
-    });
-    Array.prototype.forEach.call(dots.children, function(d, i){ d.classList.toggle('on', i === cur); });
-  }
-  function go(i){ cur = (i % n + n) % n; render(); }
-  function restart(){
-    clearInterval(timer);
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(function(){ go(cur + 1); }, 5500);
-  }
-  cards.forEach(function(c, i){
-    c.addEventListener('click', function(e){
-      if (i !== cur && !e.target.closest('.fly')) { e.preventDefault(); go(i); restart(); }
-    });
-  });
-  document.getElementById('prev').onclick = function(){ go(cur - 1); restart(); };
-  document.getElementById('next').onclick = function(){ go(cur + 1); restart(); };
-  document.getElementById('stage').addEventListener('mouseenter', function(){ clearInterval(timer); });
-  document.getElementById('stage').addEventListener('mouseleave', restart);
-  var sx = null, st = document.getElementById('stage');
-  st.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});
-  st.addEventListener('touchend', function(e){
-    if (sx === null) return;
-    var dx = e.changedTouches[0].clientX - sx;
-    if (Math.abs(dx) > 40) { go(cur + (dx < 0 ? 1 : -1)); restart(); }
-    sx = null;
-  });
-  window.addEventListener('resize', render);
-  render(); restart();
-
-
-  /* Hero background (nature) and snowy Gulmarg photo */
-  /* Cover photo: Kashmir landscape from Wikimedia Commons, people filtered out */
   function preload(u, ok){ var im = new Image(); im.onload = function(){ ok(u); }; im.src = u; }
+
+  /* Cover photo: Kashmir landscape from Wikimedia Commons, people filtered out */
   var heroQueries = ['Dal Lake Srinagar landscape', 'Kashmir valley landscape', 'Pahalgam valley', 'Sonamarg meadow mountains', 'Gurez valley', 'Kashmir mountains lake', 'Chinar tree autumn Kashmir'];
   (function tryHero(q){
     if (!q.length) return;
@@ -566,6 +358,7 @@ function wikiImg(img){
     });
   })(heroQueries.slice());
 
+  /* Snowy Gulmarg photo for the first package */
   var snowQueries = ['Gulmarg snow', 'Gulmarg winter snow', 'Gulmarg meadow snow', 'Gulmarg Apharwat'];
   (function trySnow(q){
     if (!q.length) return;
