@@ -1,6 +1,6 @@
 <?php
 // ---------- Settings: edit these ----------
-const BRAND        = 'Dar-As-Safarr';
+const BRAND        = 'Dar-As-Safarr 2.O';
 const EMAIL        = 'darasafar@gmail.com';
 const WA_NUMBER    = '91XXXXXXXXXX'; // country code + number, digits only. Example: 919876543210
 const CURRENCY     = '₹';
