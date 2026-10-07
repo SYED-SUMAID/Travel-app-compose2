@@ -2,7 +2,7 @@ services:
 
   web:
 
-    image: sumaid06/travel-app:v${TAG}
+    image: ${DOCKER_USER}/travel-app:v${TAG}
 
     ports:
       - "8090:80"
@@ -15,7 +15,6 @@ services:
 
     environment:
       DB_HOST: db
-
 
     networks:
       - travel-network
