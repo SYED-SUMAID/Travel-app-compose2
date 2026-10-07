@@ -2,7 +2,7 @@ services:
 
   web:
 
-    image: verventech/travel-app:v${TAG}
+    image: sumaid06/travel-app:v${TAG}
 
     ports:
       - "8090:80"
