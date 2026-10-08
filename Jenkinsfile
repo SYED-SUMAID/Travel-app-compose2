@@ -27,8 +27,8 @@ pipeline {
                         sh "echo \$PASS | docker login -u \$USER --password-stdin"
 
                         // Build & Push single image artifact for both environments
-                        sh "docker build -t ${DOCKER_USER}/{APP_NAME}:v${TAG} ."
-                        sh "docker push ${DOCKER_USER}/{APP_NAME}:v${TAG}"
+                        sh "docker build -t ${DOCKER_USER}/${APP_NAME}:v${TAG} ."
+                        sh "docker push ${DOCKER_USER}/${APP_NAME}:v${TAG}"
                     }
                 }
             }
@@ -61,7 +61,7 @@ EOF
                     sh "ssh -o StrictHostKeyChecking=no ${VM_USER}@${STAGING_IP} 'mkdir -p ~/${APP_NAME}'"
                            cd ~/${APP_NAME}
                     // Transfer Compose, environment file and database initialization to jenkins/home/travel-app
-                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${STAGING_IP}:~/${APP_NAME}"
+                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${STAGING_IP}:~/${APP_NAME}/"
  
                     sh """
                         ssh -o StrictHostKeyChecking=no ${VM_USER}@${STAGING_IP} '
@@ -91,7 +91,7 @@ EOF
 
                     sh "ssh -o StrictHostKeyChecking=no ${VM_USER}@${PROD_IP} 'mkdir -p ~/${APP_NAME}'"
 
-                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${PROD_IP}:~/${APP_NAME}"
+                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${PROD_IP}:~/${APP_NAME}/"
 
                     sh """
                         ssh -o StrictHostKeyChecking=no ${VM_USER}@${PROD_IP} '
