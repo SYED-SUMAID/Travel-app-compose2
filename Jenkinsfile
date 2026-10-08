@@ -10,7 +10,7 @@ pipeline {
         DOCKER_CREDS_ID = "dockerhub-creds"
         SSH_CREDS_ID = "vm-ssh-key"
         TAG = "${env.BUILD_NUMBER}"
-        APP_NAME="travel-app"
+        APP_NAME = "travel-app"
     }
 
     stages {
@@ -27,8 +27,8 @@ pipeline {
                     ]) {
                         sh "echo \$PASS | docker login -u \$USER --password-stdin"
 
-                        // Build & Push single image artifact for both environments
                         sh "docker build -t ${DOCKER_USER}/${APP_NAME}:v${TAG} ."
+
                         sh "docker push ${DOCKER_USER}/${APP_NAME}:v${TAG}"
                     }
                 }
@@ -50,7 +50,7 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=${DB_PASS}
 EOF
                     """
-                
+                }
             }
         }
 
@@ -58,21 +58,20 @@ EOF
             steps {
                 sshagent([SSH_CREDS_ID]) {
 
-                    //Create directory in staging in jenkins/home/travel-app/
                     sh "ssh -o StrictHostKeyChecking=no ${VM_USER}@${STAGING_IP} 'mkdir -p ~/${APP_NAME}'"
-                           cd ~/${APP_NAME}
-                    // Transfer Compose, environment file and database initialization to jenkins/home/travel-app
-                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${STAGING_IP}:~/${APP_NAME}"
- 
+
+                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${STAGING_IP}:~/${APP_NAME}/"
+
                     sh """
                         ssh -o StrictHostKeyChecking=no ${VM_USER}@${STAGING_IP} '
-                           cd ~/${APP_NAME}
+                            cd ~/${APP_NAME}
 
                             export TAG=${TAG}
                             export DOCKER_USER=${DOCKER_USER}
+                            export APP_NAME=${APP_NAME}
 
                             docker compose -p ${APP_NAME} pull
-                            docker compose -p ${APP_NAME} up -d  --force-recreate--remove-orphans
+                            docker compose -p ${APP_NAME} up -d --force-recreate --remove-orphans
                         '
                     """
                 }
@@ -96,13 +95,14 @@ EOF
 
                     sh """
                         ssh -o StrictHostKeyChecking=no ${VM_USER}@${PROD_IP} '
-                           cd ~/${APP_NAME}
+                            cd ~/${APP_NAME}
 
                             export TAG=${TAG}
                             export DOCKER_USER=${DOCKER_USER}
+                            export APP_NAME=${APP_NAME}
 
                             docker compose -p ${APP_NAME} pull
-                            docker compose -p ${APP_NAME} up -d --force-recreate--remove-orphans
+                            docker compose -p ${APP_NAME} up -d --force-recreate --remove-orphans
                         '
                     """
                 }
