@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -61,7 +62,7 @@ EOF
                     sh "ssh -o StrictHostKeyChecking=no ${VM_USER}@${STAGING_IP} 'mkdir -p ~/${APP_NAME}'"
                            cd ~/${APP_NAME}
                     // Transfer Compose, environment file and database initialization to jenkins/home/travel-app
-                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${STAGING_IP}:~/${APP_NAME}/"
+                    sh "scp -r -o StrictHostKeyChecking=no docker-compose.yml .env db ${VM_USER}@${STAGING_IP}:~/${APP_NAME}"
  
                     sh """
                         ssh -o StrictHostKeyChecking=no ${VM_USER}@${STAGING_IP} '
@@ -109,4 +110,3 @@ EOF
         }
     }
 }
-
