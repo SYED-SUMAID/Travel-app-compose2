@@ -4,6 +4,8 @@ services:
 
     image: ${DOCKER_USER}/travel-app:v${TAG}
 
+    restart: unless-stopped
+    
     ports:
       - "8090:80"
 
@@ -23,6 +25,8 @@ services:
   db:
 
     image: postgres:16
+
+    restart: unless-stopped
 
     env_file:
       - .env
